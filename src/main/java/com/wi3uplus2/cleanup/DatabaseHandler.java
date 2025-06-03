@@ -3,11 +3,12 @@ package com.wi3uplus2.cleanup;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class TestSQLite {
+public class DatabaseHandler {
 
+    static String url = "jdbc:sqlite:src/main/resources/com/wi3uplus2/cleanup/data/data.db";
+
+    // method untuk menghubungkan ke database SQLite
     public static void connect() {
-        // connection string
-        var url = "jdbc:sqlite:src/main/resources/com/wi3uplus2/cleanup/data/data.db";
 
         try (var conn = DriverManager.getConnection(url)) {
             System.out.println("Connection to SQLite has been established.");
@@ -16,7 +17,10 @@ public class TestSQLite {
         }
     }
 
-    public static void main(String[] args) {
-        connect();
+    public void insertData(String query) throws SQLException {
+        var conn = DriverManager.getConnection(url);
+        conn.prepareStatement(query);
     }
+
+
 }

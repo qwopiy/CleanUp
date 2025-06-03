@@ -2,9 +2,10 @@ module com.wi3uplus2.cleanup {
     requires javafx.controls;
     requires javafx.fxml;
 
-    requires com.almasb.fxgl.all;
     requires java.sql;
 
     opens com.wi3uplus2.cleanup to javafx.fxml;
     exports com.wi3uplus2.cleanup;
+    exports com.wi3uplus2.cleanup.exampleDariAnanta;
+    opens com.wi3uplus2.cleanup.exampleDariAnanta to javafx.fxml;
 }
