@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
 public class CleanUpController {
 
@@ -20,14 +19,16 @@ public class CleanUpController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
 
-            // Get the current stage
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+            // Get the controller and call init()
+            TransitionScreen controller = loader.getController();
+            controller.show();
+
+            // Set the new root for the current scene
+            Scene scene = ((Node) event.getSource()).getScene();
+            scene.setRoot(root);
         } catch (Exception e) {
-            System.out.println(e);;
+            System.out.println(e);
         }
     }
 }
