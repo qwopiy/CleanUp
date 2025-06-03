@@ -21,8 +21,9 @@ public class CleanUpController {
             Parent root = loader.load();
 
             // Get the controller and call init()
-            TransitionScreen controller = loader.getController();
+            TransitionScreenController controller = loader.getController();
             controller.show();
+            DatabaseHandler.initSession();
 
             // Set the new root for the current scene
             Scene scene = ((Node) event.getSource()).getScene();

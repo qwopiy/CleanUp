@@ -37,17 +37,17 @@ public class Game1 {
         }
         switch (difficulty) {
             case "easy":
-                playerSpeed = 10;
+                playerSpeed = 15;
                 break;
             case "medium":
-                playerSpeed = 9;
+                playerSpeed = 12;
                 width = 150;
                 height = 150;
                 player.setY(player.getY() + 50);
                 pembuangSampah.setY(pembuangSampah.getY() + 50);
                 break;
             case "hard":
-                playerSpeed = 8;
+                playerSpeed = 10;
                 width = 100;
                 height = 100;
                 player.setY(player.getY() + 100);
@@ -85,15 +85,17 @@ public class Game1 {
         GameState.currentLives--;
         // Switch to transition screen or show game over
         try {
+            DatabaseHandler.insertMinigameSessionData(1, false);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
             Parent root = loader.load();
-            TransitionScreen controller = loader.getController();
+            TransitionScreenController controller = loader.getController();
             controller.show();
             Scene scene = player.getScene();
             scene.setRoot(root);
         } catch (Exception e) {
             System.out.println(e);
         }
+
     }
 
     public void onClick() {
@@ -113,9 +115,10 @@ public class Game1 {
             countdownTimeline.stop();
 
             // Get the controller and update the score or lives
-            TransitionScreen controller = loader.getController();
+            TransitionScreenController controller = loader.getController();
             GameState.currentScore += 10; // Example of updating score
             controller.show();
+            DatabaseHandler.insertMinigameSessionData(1, true);
 
             // Set the new root for the current scene
             Scene scene = player.getScene();
