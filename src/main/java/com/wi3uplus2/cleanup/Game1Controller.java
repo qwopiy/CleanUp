@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-public class Game1 {
+public class Game1Controller {
 
     @FXML
     private Rectangle player;

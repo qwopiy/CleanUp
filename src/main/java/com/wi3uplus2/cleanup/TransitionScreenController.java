@@ -7,11 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 
-import java.util.Random;
-
 public class TransitionScreenController {
 
-    private String[] minigames = {"game-1.fxml", "game-2.fxml"};
+    private Parent[] minigames = new Parent[2];
     private int nextGame;
     @FXML
     public Label lives;
@@ -20,9 +18,25 @@ public class TransitionScreenController {
 
     @FXML
     public void initialize() {
+        // initialize minigame 1
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-1.fxml"));
+            minigames[0] = loader.load();
+        } catch (Exception e) {
+            System.out.println("Error loading minigames scene: " + e.getMessage());
+        }
+
+        // initialize minigame 2
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-2.fxml"));
+            minigames[1] = loader.load();
+        } catch (Exception e) {
+            System.out.println("Error loading minigames scene: " + e.getMessage());
+        }
+
+
         // Randomly pick the next game to play
         pickNextGame();
-        System.out.println("Next game: " + minigames[nextGame]);
     }
 
     @FXML
@@ -36,12 +50,9 @@ public class TransitionScreenController {
     protected void onButtonClick(javafx.event.ActionEvent event) {
         if (GameState.currentLives > 0){
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("game-1.fxml"));
-                Parent root = loader.load();
-
                 // Set the new root for the current scene
                 Scene scene = ((Node) event.getSource()).getScene();
-                scene.setRoot(root);
+                scene.setRoot(minigames[nextGame]);
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -56,7 +67,7 @@ public class TransitionScreenController {
                 scene.setRoot(root);
             } catch (Exception e) {
                 System.out.println(e);
-            }
+           }
         }
     }
 

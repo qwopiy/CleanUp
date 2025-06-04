@@ -1,18 +1,32 @@
 package com.wi3uplus2.cleanup;
 
-import javafx.application.Application;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
+import javafx.util.Duration;
+
 
 import java.util.Random;
 
-public class Main extends Application {
+public class Game2Controller {
+
+    @FXML
+    private Canvas canvas;
+    @FXML
+    private Label countdownLabel;
+
+    private int countdownSeconds = 10; // Set countdown duration
+    private Timeline countdownTimeline;
 
     final int WIDTH = 800;
     final int HEIGHT = 600;
@@ -43,22 +57,55 @@ public class Main extends Application {
             {550, 150, 2}  // metal
     };
 
-    @Override
-    public void start(Stage primaryStage) {
-        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+    @FXML
+    public void initialize() {
+        startCountdown();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-
         newTrash();
 
-        canvas.setOnMousePressed(e -> onMousePressed(e));
-        canvas.setOnMouseDragged(e -> onMouseDragged(e));
-        canvas.setOnMouseReleased(e -> onMouseReleased(e));
+        canvas.setOnMousePressed(this::onMousePressed);
+        canvas.setOnMouseDragged(this::onMouseDragged);
+        canvas.setOnMouseReleased(this::onMouseReleased);
 
-        new AnimationTimerExt(60, () -> draw(gc)).start();
+        new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                draw(gc);
+            }
+        }.start();
+    }
 
-        primaryStage.setScene(new Scene(new StackPane(canvas)));
-        primaryStage.setTitle("Game Pilah Sampah (Drag & Drop)");
-        primaryStage.show();
+    private void startCountdown() {
+        countdownLabel.setText("Time: " + countdownSeconds);
+        countdownTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), event -> {
+                    countdownSeconds--;
+                    countdownLabel.setText("Time: " + countdownSeconds);
+                    if (countdownSeconds <= 0) {
+                        countdownTimeline.stop();
+                        onCountdownEnd();
+                    }
+                })
+        );
+        countdownTimeline.setCycleCount(countdownSeconds);
+        countdownTimeline.play();
+    }
+
+    private void onCountdownEnd() {
+        GameState.currentLives--;
+        // Switch to transition screen or show game over
+        try {
+            DatabaseHandler.insertMinigameSessionData(1, false);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
+            Parent root = loader.load();
+            TransitionScreenController controller = loader.getController();
+            controller.show();
+            Scene scene = countdownLabel.getScene();
+            scene.setRoot(root);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
     }
 
     void draw(GraphicsContext gc) {
@@ -155,10 +202,6 @@ public class Main extends Application {
             case "metal" -> Color.SILVER;
             default -> Color.BLACK;
         };
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 
     // Kelas helper AnimationTimer dengan FPS fix

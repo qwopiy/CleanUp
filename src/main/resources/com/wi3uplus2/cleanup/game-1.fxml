@@ -5,7 +5,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClick" prefHeight="891.0" prefWidth="1600.0" translateZ="100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.Game1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClick" prefHeight="891.0" prefWidth="1600.0" translateZ="100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.Game1Controller">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#00b700" height="22.0" layoutX="-8.0" layoutY="666.0" stroke="BLACK" strokeType="INSIDE" width="1610.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5e3300" height="215.0" layoutX="-12.0" layoutY="674.0" stroke="BLACK" strokeType="INSIDE" width="1617.0" />
