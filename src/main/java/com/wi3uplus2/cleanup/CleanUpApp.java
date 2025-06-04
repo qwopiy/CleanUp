@@ -15,15 +15,12 @@ public class CleanUpApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(CleanUpApp.class.getResource("/com/wi3uplus2/cleanup/main-menu.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1920, 1080);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Clean Up Game");
         stage.setScene(scene);
-        stage.setResizable(false);
-        stage.setFullScreen(true);
+//        stage.setResizable(false);
+//        stage.setFullScreen(true);
         stage.show();
-
-        GameState.currentScore = 0;
-        GameState.currentLives = 3;
 
 //        // Delta Time
 //        AnimationTimer timer = new AnimationTimer() {

@@ -24,6 +24,8 @@ public class CleanUpController {
             TransitionScreenController controller = loader.getController();
             controller.show();
             DatabaseHandler.initSession();
+            GameState.currentScore = 0;
+            GameState.currentLives = 3;
 
             // Set the new root for the current scene
             Scene scene = ((Node) event.getSource()).getScene();

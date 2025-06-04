@@ -7,29 +7,32 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 public class Game1Controller {
 
     @FXML
-    private Rectangle player;
+    private ImageView player;
     @FXML
-    private Rectangle pembuangSampah;
+    private ImageView pembuangSampah;
     @FXML
     private Label countdownLabel;
 
     private String difficulty = "easy";
     private int playerSpeed = 10;
-    private int height = 200;
-    private int width = 200;
 
     private int countdownSeconds = 10; // Set countdown duration
     private Timeline countdownTimeline;
+//    private int animCycle = 0;
+//    private Image[] playerRun;
 
     @FXML
     public void initialize() {
-        startCountdown();
+//        playerRun[0] = new Image(String.valueOf(getClass().getResource("assets/images/character/Character_Run1")));
+//        playerRun[1] = new Image(String.valueOf(getClass().getResource("assets/images/character/Character_Run2")));
+
         if (GameState.currentScore > 100) {
             difficulty = "hard";
         } else if (GameState.currentScore > 50) {
@@ -42,32 +45,23 @@ public class Game1Controller {
                 break;
             case "medium":
                 playerSpeed = 25;
-                width = 150;
-                height = 150;
                 player.setY(player.getY() + 50);
                 pembuangSampah.setY(pembuangSampah.getY() + 50);
                 pembuangSampah.setX(pembuangSampah.getX() - 100);
                 break;
             case "hard":
                 playerSpeed = 20;
-                width = 100;
-                height = 100;
                 player.setY(player.getY() + 100);
                 pembuangSampah.setY(pembuangSampah.getY() + 100);
                 break;
             default:
                 playerSpeed = 10; // Default speed
         }
-        // Set initial position and size of player and pembuangSampah
-        player.setWidth(width);
-        player.setHeight(height);
-        pembuangSampah.setWidth(width);
-        pembuangSampah.setHeight(height);
 
         System.out.println(difficulty);
     }
 
-    private void startCountdown() {
+    public void startCountdown() {
         countdownLabel.setText("Time: " + countdownSeconds);
         countdownTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), event -> {
@@ -106,6 +100,17 @@ public class Game1Controller {
         if (player.getBoundsInParent().intersects(pembuangSampah.getBoundsInParent())) {
             onPlayerTouchPembuangSampah();
         }
+
+//        switch (animCycle) {
+//            case 0:
+//                player.setImage(playerRun[1]);
+//                animCycle = 1;
+//                break;
+//            case 1:
+//                player.setImage(playerRun[0]);
+//                animCycle = 0;
+//                break;
+//        }
     }
 
     private void onPlayerTouchPembuangSampah() {

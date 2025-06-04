@@ -59,7 +59,6 @@ public class Game2Controller {
 
     @FXML
     public void initialize() {
-        startCountdown();
         GraphicsContext gc = canvas.getGraphicsContext2D();
         newTrash();
 
@@ -75,7 +74,7 @@ public class Game2Controller {
         }.start();
     }
 
-    private void startCountdown() {
+    public void startCountdown() {
         countdownLabel.setText("Time: " + countdownSeconds);
         countdownTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), event -> {
@@ -84,6 +83,7 @@ public class Game2Controller {
                     if (countdownSeconds <= 0) {
                         countdownTimeline.stop();
                         onCountdownEnd();
+                        GameState.currentScore += score;
                     }
                 })
         );

@@ -10,7 +10,8 @@ import javafx.scene.control.Label;
 public class TransitionScreenController {
 
     private Parent[] minigames = new Parent[2];
-    private int nextGame;
+    private Game1Controller game1Controller;
+    private Game2Controller game2Controller;
     @FXML
     public Label lives;
     @FXML
@@ -22,6 +23,7 @@ public class TransitionScreenController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game-1.fxml"));
             minigames[0] = loader.load();
+            game1Controller = loader.getController();
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
@@ -30,17 +32,17 @@ public class TransitionScreenController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game-2.fxml"));
             minigames[1] = loader.load();
+            game2Controller = loader.getController();
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
-
-
-        // Randomly pick the next game to play
-        pickNextGame();
     }
 
     @FXML
     public void show() {
+        // Randomly pick the next game to play
+//        pickNextGame();
+
         // Initialize the transition screen with default values
         lives.setText("Nyawa : " + GameState.currentLives);
         score.setText("Skor  : " + GameState.currentScore);
@@ -48,11 +50,27 @@ public class TransitionScreenController {
 
     @FXML
     protected void onButtonClick(javafx.event.ActionEvent event) {
+        // Randomly pick the next game to play
+        System.out.println(GameState.nextGame);
+        if (GameState.nextGame == 0) {
+            GameState.nextGame++;
+        } else {
+            GameState.nextGame--;
+        }
         if (GameState.currentLives > 0){
             try {
                 // Set the new root for the current scene
                 Scene scene = ((Node) event.getSource()).getScene();
-                scene.setRoot(minigames[nextGame]);
+                switch (GameState.nextGame) {
+                    case 0:
+                        game1Controller.startCountdown();
+                        break;
+                    case 1:
+                        game2Controller.startCountdown();
+                        break;
+                }
+
+                scene.setRoot(minigames[GameState.nextGame]);
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -71,9 +89,9 @@ public class TransitionScreenController {
         }
     }
 
-    void pickNextGame() {
-        if ((int)(Math.random() * 2) != nextGame) {
-            nextGame = (int) (Math.random() * 2);
+    protected void pickNextGame() {
+        if ((int)(Math.random() * 2 ) != GameState.nextGame) {
+            GameState.nextGame = (int) (Math.random() * 2);
         } else {
             pickNextGame();
         }
