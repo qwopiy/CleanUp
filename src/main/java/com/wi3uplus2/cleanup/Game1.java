@@ -37,17 +37,19 @@ public class Game1 {
         }
         switch (difficulty) {
             case "easy":
-                playerSpeed = 15;
+                playerSpeed = 30;
+                pembuangSampah.setX(pembuangSampah.getX() - 200);
                 break;
             case "medium":
-                playerSpeed = 12;
+                playerSpeed = 25;
                 width = 150;
                 height = 150;
                 player.setY(player.getY() + 50);
                 pembuangSampah.setY(pembuangSampah.getY() + 50);
+                pembuangSampah.setX(pembuangSampah.getX() - 100);
                 break;
             case "hard":
-                playerSpeed = 10;
+                playerSpeed = 20;
                 width = 100;
                 height = 100;
                 player.setY(player.getY() + 100);

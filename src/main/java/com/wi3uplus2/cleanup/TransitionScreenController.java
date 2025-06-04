@@ -7,12 +7,23 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 
+import java.util.Random;
+
 public class TransitionScreenController {
 
+    private String[] minigames = {"game-1.fxml", "game-2.fxml"};
+    private int nextGame;
     @FXML
     public Label lives;
     @FXML
     public Label score;
+
+    @FXML
+    public void initialize() {
+        // Randomly pick the next game to play
+        pickNextGame();
+        System.out.println("Next game: " + minigames[nextGame]);
+    }
 
     @FXML
     public void show() {
@@ -46,6 +57,14 @@ public class TransitionScreenController {
             } catch (Exception e) {
                 System.out.println(e);
             }
+        }
+    }
+
+    void pickNextGame() {
+        if ((int)(Math.random() * 2) != nextGame) {
+            nextGame = (int) (Math.random() * 2);
+        } else {
+            pickNextGame();
         }
     }
 }

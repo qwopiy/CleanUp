@@ -10,8 +10,7 @@ import java.sql.SQLException;
 
 public class CleanUpApp extends Application {
 
-    public Scene[] gameScene;
-    private long lastTime = 0;
+//    private long lastTime = 0;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -26,27 +25,27 @@ public class CleanUpApp extends Application {
         GameState.currentScore = 0;
         GameState.currentLives = 3;
 
-        // Delta Time
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                if (lastTime > 0) {
-                    double deltaTime = (now - lastTime) / 1_000_000_000.0; // seconds
+//        // Delta Time
+//        AnimationTimer timer = new AnimationTimer() {
+//            @Override
+//            public void handle(long now) {
+//                if (lastTime > 0) {
+//                    double deltaTime = (now - lastTime) / 1_000_000_000.0; // seconds
 //                    onUpdate(deltaTime);
-                }
-                lastTime = now;
-            }
-        };
-        timer.start();
+//                }
+//                lastTime = now;
+//            }
+//        };
+//        timer.start();
     }
 
-    private void onUpdate(double deltaTime) {
-        // deltaTime is in seconds (e.g., 0.016 for ~60fps)
-        System.out.println("Delta Time: " + deltaTime);
-
-        // Example usage:
-        // position += speed * deltaTime;
-    }
+//    private void onUpdate(double deltaTime) {
+//        // deltaTime is in seconds (e.g., 0.016 for ~60fps)
+//        System.out.println("Delta Time: " + deltaTime);
+//
+//        // Example usage:
+//        // position += speed * deltaTime;
+//    }
 
     public static void main(String[] args) {
         DatabaseHandler.connect();

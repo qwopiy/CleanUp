@@ -37,7 +37,7 @@ public class DatabaseHandler {
     }
 
     public static void insertSessionData(int totalScore) throws SQLException {
-        String query = "INSERT INTO GameSessions (score) VALUES (" + totalScore + ");";
+        String query = "INSERT INTO GameSessions (player_id, score) VALUES (1, " + totalScore + ");";
         try {
             insertData(query);
         } catch (SQLException e) {
