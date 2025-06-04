@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.AchievementController">
+   <children>
+      <BorderPane prefHeight="1080.0" prefWidth="1921.0">
+         <center>
+            <AnchorPane prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Pane layoutX="114.0" layoutY="100.0" prefHeight="830.0" prefWidth="1467.0">
+                     <children>
+                        <HBox layoutX="66.0" layoutY="60.0" prefHeight="695.0" prefWidth="1346.0">
+                           <children>
+                              <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="722.0" prefWidth="695.0">
+                                 <content>
+                                    <VBox fx:id="itemList" prefHeight="560.0" prefWidth="513.0">
+                                       <padding>
+                                          <Insets bottom="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </content>
+                              </ScrollPane>
+                              <VBox alignment="CENTER" prefHeight="576.0" prefWidth="586.0">
+                                 <children>
+                                    <ImageView fitHeight="386.0" fitWidth="379.0" pickOnBounds="true" preserveRatio="true">
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" top="20.0" />
+                                       </VBox.margin>
+                                       <image>
+                                          <Image url="@../../assetcok/achivement.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="TOP_LEFT" prefHeight="66.0" prefWidth="294.0" text="Skor Tertinggi:" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="44.0" />
+                                       </font>
+                                    </Label>
+                                    <Label prefHeight="40.0" prefWidth="96.0" text="190901" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="28.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+         </center>
+         <left>
+            <Button mnemonicParsing="false" onAction="#Kembali" prefHeight="94.0" prefWidth="187.0" text="Kembali" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="700.0" left="50.0" />
+               </BorderPane.margin>
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Button>
+         </left>
+      </BorderPane>
+   </children>
+</AnchorPane>
