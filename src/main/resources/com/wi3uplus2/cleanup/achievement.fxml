@@ -1,76 +1,183 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.AchievementController">
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #A4D7FF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.AchievementController">
    <children>
-      <BorderPane prefHeight="1080.0" prefWidth="1921.0">
-         <center>
-            <AnchorPane prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Pane layoutX="114.0" layoutY="100.0" prefHeight="830.0" prefWidth="1467.0">
-                     <children>
-                        <HBox layoutX="66.0" layoutY="60.0" prefHeight="695.0" prefWidth="1346.0">
-                           <children>
-                              <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="722.0" prefWidth="695.0">
-                                 <content>
-                                    <VBox fx:id="itemList" prefHeight="560.0" prefWidth="513.0">
-                                       <padding>
-                                          <Insets bottom="10.0" />
-                                       </padding>
-                                    </VBox>
-                                 </content>
-                              </ScrollPane>
-                              <VBox alignment="CENTER" prefHeight="576.0" prefWidth="586.0">
-                                 <children>
-                                    <ImageView fitHeight="386.0" fitWidth="379.0" pickOnBounds="true" preserveRatio="true">
-                                       <VBox.margin>
-                                          <Insets bottom="20.0" top="20.0" />
-                                       </VBox.margin>
-                                       <image>
-                                          <Image url="@../../assetcok/achivement.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="TOP_LEFT" prefHeight="66.0" prefWidth="294.0" text="Skor Tertinggi:" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="44.0" />
-                                       </font>
-                                    </Label>
-                                    <Label prefHeight="40.0" prefWidth="96.0" text="190901" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="28.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </children>
-                  </Pane>
-               </children>
-            </AnchorPane>
-         </center>
-         <left>
-            <Button mnemonicParsing="false" onAction="#Kembali" prefHeight="94.0" prefWidth="187.0" text="Kembali" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="700.0" left="50.0" />
-               </BorderPane.margin>
+      <VBox alignment="CENTER_RIGHT" prefHeight="1080.0" prefWidth="404.0">
+         <children>
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Kembali" prefHeight="39.0" prefWidth="79.0" style="-fx-background-color: transparent;" text="Kembali" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="300.0" right="40.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="107.0" fitWidth="290.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assetcok/UI_Button_up.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                     <effect>
+                        <Glow />
+                     </effect>
+                  </ImageView>
+               </graphic>
                <font>
-                  <Font size="36.0" />
+                  <Font size="27.0" />
                </font>
             </Button>
-         </left>
-      </BorderPane>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="1080.0" prefWidth="1055.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="562.0" prefWidth="1104.0" style="-fx-background-color: #F0D6B0; -fx-background-radius: 20;">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="522.0" prefWidth="629.0" style="-fx-background-color: #B08059; -fx-background-radius: 20;">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <children>
+                        <ScrollPane cache="true" pannable="true" prefHeight="514.0" prefWidth="582.0">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <content>
+                              <VBox accessibleRole="SCROLL_PANE" prefHeight="484.0" prefWidth="579.0" style="-fx-background-color: #FFE482;">
+                                 <children>
+                                    <HBox maxHeight="116.0" maxWidth="588.0" prefHeight="116.0" prefWidth="546.0">
+                                       <children>
+                                          <ImageView fitHeight="101.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" />
+                                          <VBox alignment="CENTER_LEFT" prefHeight="101.0" prefWidth="301.0">
+                                             <children>
+                                                <Label prefHeight="36.0" prefWidth="189.0" text="Game ke-">
+                                                   <font>
+                                                      <Font size="25.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label prefHeight="36.0" prefWidth="206.0" text="Jumlah Mati:">
+                                                   <font>
+                                                      <Font size="25.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox layoutX="10.0" layoutY="10.0" maxHeight="116.0" maxWidth="588.0" prefHeight="116.0" prefWidth="546.0">
+                                       <children>
+                                          <ImageView fitHeight="101.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" />
+                                          <VBox alignment="CENTER_LEFT" prefHeight="101.0" prefWidth="301.0">
+                                             <children>
+                                                <Label prefHeight="36.0" prefWidth="189.0" text="Game ke-">
+                                                   <font>
+                                                      <Font size="25.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label prefHeight="36.0" prefWidth="206.0" text="Jumlah Mati:">
+                                                   <font>
+                                                      <Font size="25.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox layoutX="10.0" layoutY="126.0" maxHeight="116.0" maxWidth="588.0" prefHeight="116.0" prefWidth="546.0">
+                                       <children>
+                                          <ImageView fitHeight="101.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" />
+                                          <VBox alignment="CENTER_LEFT" prefHeight="101.0" prefWidth="301.0">
+                                             <children>
+                                                <Label prefHeight="36.0" prefWidth="189.0" text="Game ke-">
+                                                   <font>
+                                                      <Font size="25.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label prefHeight="36.0" prefWidth="206.0" text="Jumlah Mati:">
+                                                   <font>
+                                                      <Font size="25.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox layoutX="10.0" layoutY="242.0" maxHeight="116.0" maxWidth="588.0" prefHeight="116.0" prefWidth="546.0">
+                                       <children>
+                                          <ImageView fitHeight="101.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" />
+                                          <VBox alignment="CENTER_LEFT" prefHeight="101.0" prefWidth="301.0">
+                                             <children>
+                                                <Label prefHeight="36.0" prefWidth="189.0" text="Game ke-">
+                                                   <font>
+                                                      <Font size="25.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label prefHeight="36.0" prefWidth="206.0" text="Jumlah Mati:">
+                                                   <font>
+                                                      <Font size="25.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </content>
+                           <padding>
+                              <Insets left="5.0" top="5.0" />
+                           </padding>
+                        </ScrollPane>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="522.0" prefWidth="383.0" style="-fx-background-color: #7AD67E; -fx-background-radius: 20;">
+                     <children>
+                        <ImageView fitHeight="318.0" fitWidth="348.0" pickOnBounds="true" preserveRatio="true">
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="10.0" right="10.0" />
+                           </VBox.margin>
+                           <image>
+                              <Image url="@../../assetcok/UI_trophy.png" />
+                           </image>
+                        </ImageView>
+                        <Label alignment="CENTER" prefHeight="54.0" prefWidth="284.0" text="Skor Tertinggi:">
+                           <font>
+                              <Font size="35.0" />
+                           </font></Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="1080.0" prefWidth="404.0" />
    </children>
-</AnchorPane>
+</HBox>

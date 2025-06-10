@@ -21,21 +21,23 @@ public class AchievementController {
             e.printStackTrace();
         }
     }
-    @FXML
-    VBox itemList; // VBox di dalam ScrollPane
 
-    public void initialize() {
-        for (int i = 1; i < 20; i++) {
-            HBox baris = new HBox(20);
-            ImageView img = new ImageView(new Image("file:..."));
-            img.setFitWidth(100);
-            img.setFitHeight(100);
 
-            VBox labelBox = new VBox();
-            labelBox.getChildren().addAll(new Label("Game ke-" + i), new Label("Jumlah Mati:"));
-
-            baris.getChildren().addAll(img, labelBox);
-            itemList.getChildren().add(baris);
-        }
-    }
+//    @FXML
+//    VBox itemList; // VBox di dalam ScrollPane
+//
+//    public void initialize() {
+//        for (int i = 1; i < 10; i++) {
+//            HBox baris = new HBox(50);
+//            ImageView img = new ImageView(new Image("file:..."));
+//            img.setFitWidth(100);
+//            img.setFitHeight(100);
+//
+//            VBox labelBox = new VBox();
+//            labelBox.getChildren().addAll(new Label("Game ke-" + i), new Label("Jumlah Mati:"));
+//
+//            baris.getChildren().addAll(img, labelBox);
+//            itemList.getChildren().add(baris);
+//        }
+//    }
 }
