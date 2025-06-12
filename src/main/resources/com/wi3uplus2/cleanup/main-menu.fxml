@@ -1,36 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <Pane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.CleanUpController">
    <children>
       <ImageView fitHeight="1078.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@assets/images/bg/Transition_Screen.png" />
+            <Image url="@assets/images/bg/Main_Menu_1.png" />
          </image>
       </ImageView>
-      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" spacing="20.0">
-        <padding>
-          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-        </padding>
-      
-        <Label fx:id="welcomeText" text="GAME CLEAN UP!!!">
-            <font>
-               <Font size="36.0" />
-            </font>
-         </Label>
-        <Button fx:id="startButton" onAction="#onStartButtonClick" text="START">
-            <font>
-               <Font size="36.0" />
-            </font>
-         </Button>
-      </VBox>
+     <Button fx:id="startButton" layoutX="779.0" layoutY="526.0" onAction="#onStartButtonClick" prefHeight="104.0" prefWidth="424.0" text="MAIN">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
    </children>
 </Pane>
