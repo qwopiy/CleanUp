@@ -63,7 +63,7 @@ public class TransitionScreenController {
                 Scene scene = ((Node) event.getSource()).getScene();
                 switch (GameState.nextGame) {
                     case 0:
-                        game1Controller.startCountdown();
+                        game1Controller.startCountdown(game1Controller.countdownLabel);
                         break;
                     case 1:
                         game2Controller.startCountdown();

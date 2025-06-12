@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -16,10 +17,12 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 
+import java.sql.SQLException;
 import java.util.Random;
 
-public class Game2Controller {
+public class Game2Controller extends Game {
 
+    // TODO: logika cuma ada beberapa trash dalam satu game, misalnya 5 trash setelah habis langsung ke transition screen
     @FXML
     private Canvas canvas;
     @FXML
@@ -30,6 +33,18 @@ public class Game2Controller {
 
     final int WIDTH = 800;
     final int HEIGHT = 600;
+
+    @Override
+    void win() throws SQLException {
+        GameState.currentScore += score;
+        DatabaseHandler.insertMinigameSessionData(2, true);
+    }
+
+    @Override
+    void lose() throws SQLException {
+        GameState.currentLives--;
+        DatabaseHandler.insertMinigameSessionData(2, false);
+    }
 
     class Trash {
         String type;
@@ -83,7 +98,6 @@ public class Game2Controller {
                     if (countdownSeconds <= 0) {
                         countdownTimeline.stop();
                         onCountdownEnd();
-                        GameState.currentScore += score;
                     }
                 })
         );
@@ -92,10 +106,9 @@ public class Game2Controller {
     }
 
     private void onCountdownEnd() {
-        GameState.currentLives--;
         // Switch to transition screen or show game over
         try {
-            DatabaseHandler.insertMinigameSessionData(1, false);
+            lose();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
             Parent root = loader.load();
             TransitionScreenController controller = loader.getController();
