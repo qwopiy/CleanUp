@@ -9,9 +9,10 @@ import javafx.scene.control.Label;
 
 public class TransitionScreenController {
 
-    private Parent[] minigames = new Parent[2];
+    private Parent[] minigames = new Parent[3];
     private Game1Controller game1Controller;
     private Game2Controller game2Controller;
+    private GameGrowtheForest_Controller gameGrowtheForest_Controller;
     @FXML
     public Label lives;
     @FXML
@@ -36,6 +37,15 @@ public class TransitionScreenController {
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
+
+        // initialize minigame GrowtheForest
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game_GrowtheForest.fxml"));
+            minigames[2] = loader.load();
+            gameGrowtheForest_Controller = loader.getController();
+        } catch (Exception e) {
+            System.out.println("Error loading minigames scene: " + e.getMessage());
+        }
     }
 
     @FXML
@@ -52,10 +62,10 @@ public class TransitionScreenController {
     protected void onButtonClick(javafx.event.ActionEvent event) {
         // Randomly pick the next game to play
         System.out.println(GameState.nextGame);
-        if (GameState.nextGame == 0) {
+        if (GameState.nextGame < minigames.length) {
             GameState.nextGame++;
         } else {
-            GameState.nextGame--;
+            GameState.nextGame = 0;
         }
         if (GameState.currentLives > 0){
             try {
@@ -67,6 +77,9 @@ public class TransitionScreenController {
                         break;
                     case 1:
                         game2Controller.startCountdown();
+                        break;
+                    case 2:
+                        gameGrowtheForest_Controller.startCountdown(gameGrowtheForest_Controller.countdownLabel);
                         break;
                 }
 
