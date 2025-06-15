@@ -23,7 +23,8 @@ public class DatabaseHandler {
     }
 
     public static void insertMinigameSessionData(int minigameID, boolean isSuccessful) throws SQLException {
-        String query = "INSERT INTO MiniGameSession (session_id, minigame_id, is_successful) VALUES (1, " + minigameID + ", " + (isSuccessful ? 1 : 0) + ");";
+        String query = "INSERT INTO MiniGameSession (session_id, minigame_id, is_successful) " +
+                "VALUES ((SELECT MAX(session_id) FROM GameSessions), " + minigameID + ", " + (isSuccessful ? 1 : 0) + ");";
         insertData(query);
     }
 
@@ -44,4 +45,8 @@ public class DatabaseHandler {
             System.out.println(e);
         }
     }
+
+    // TODO: ACHIEVEMENTS
+    // TODO: PLAYER ACHIEVEMENTS
+    // TODO: MINIGAME DESCRIPTION
 }
