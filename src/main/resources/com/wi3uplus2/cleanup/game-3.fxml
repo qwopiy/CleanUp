@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.Game3Controller">
+
+    <!-- Background Placeholder -->
+    <ImageView fx:id="background" fitHeight="720.0" fitWidth="1280.0" layoutX="0.0" layoutY="0.0" pickOnBounds="true" preserveRatio="false">
+      <image>
+         <Image url="@assets/images/bg/MiniGame_ChaseThatStupidGuy.png" />
+      </image></ImageView>
+
+    <!-- Tempat Sampah -->
+    <ImageView fx:id="trashCan" fitHeight="180.0" fitWidth="180.0" layoutX="550.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true" />
+
+    <!-- Sampah -->
+    <ImageView fx:id="trashObject" fitHeight="80.0" fitWidth="80.0" layoutX="600.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true" />
+
+    <!-- Progress Bar -->
+    <ProgressBar fx:id="progressBar" layoutX="390.0" layoutY="100.0" prefHeight="30.0" prefWidth="500.0" progress="0.0" />
+
+    <!-- Label Instruksi -->
+    <Label fx:id="instructionLabel" layoutX="400.0" layoutY="40.0" style="-fx-text-fill: white;" text="Tap saat tepat!">
+        <font>
+            <Font size="32.0" />
+        </font>
+    </Label>
+
+</Pane>
