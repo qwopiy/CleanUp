@@ -1,5 +1,6 @@
 package com.wi3uplus2.cleanup;
 
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
@@ -33,7 +34,7 @@ abstract class Game {
         countdownTimeline.play();
     }
 
-    protected void onCountdownEnd(Label label) {
+    public void onCountdownEnd(Label label) {
         // Switch to transition screen or show game over
         try {
             lose();
@@ -46,5 +47,32 @@ abstract class Game {
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+        // Delta Time
+    private long lastTime = 0;
+    private void startDeltaTime() {
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (lastTime > 0) {
+                    double deltaTime = (now - lastTime) / 1_000_000_000.0; // seconds
+                    onUpdate(deltaTime);
+                    if (!GameState.inGame) {
+                        stop();
+                    }
+                }
+                lastTime = now;
+            }
+        };
+        timer.start();  
+    }
+
+    private void onUpdate(double deltaTime) {
+        // deltaTime is in seconds (e.g., 0.016 for ~60fps)
+        System.out.println("Delta Time: " + deltaTime);
+
+        // Example usage:
+        // position += speed * deltaTime;
     }
 }
