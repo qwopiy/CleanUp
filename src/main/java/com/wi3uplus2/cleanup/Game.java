@@ -34,7 +34,7 @@ abstract class Game {
         countdownTimeline.play();
     }
 
-    private void onCountdownEnd(Label label) {
+    public void onCountdownEnd(Label label) {
         // Switch to transition screen or show game over
         try {
             lose();
