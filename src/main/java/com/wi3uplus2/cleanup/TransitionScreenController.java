@@ -23,7 +23,7 @@ public class TransitionScreenController {
     public void initialize() {
         // initialize minigame 1
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-1.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-ChaseThatStupidGuy.fxml"));
             minigames[0] = loader.load();
             game1Controller = loader.getController();
         } catch (Exception e) {
@@ -32,7 +32,7 @@ public class TransitionScreenController {
 
         // initialize minigame 2
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-2.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-SortTheTrash.fxml"));
             minigames[1] = loader.load();
             game2Controller = loader.getController();
         } catch (Exception e) {

@@ -1,5 +1,8 @@
-package com.wi3uplus2.cleanup;
+package com.wi3uplus2.cleanup.minigames;
 
+import com.wi3uplus2.cleanup.DatabaseHandler;
+import com.wi3uplus2.cleanup.GameState;
+import com.wi3uplus2.cleanup.TransitionScreenController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -18,7 +21,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class GameGrowtheForest_Controller extends Game {
+public class GrowtheForest extends Game {
     @FXML
     private ImageView treeTemplate;
     @FXML
