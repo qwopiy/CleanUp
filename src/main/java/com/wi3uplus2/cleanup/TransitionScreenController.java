@@ -6,60 +6,33 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 
 public class TransitionScreenController {
 
-    private Parent[] minigames = new Parent[4];
-
-    private ChaseThatStupidGuy chaseThatStupidGuy;
-    private SortTheTrash sortTheTrash;
-    private GrowtheForest growtheForest;
-    private DefendTheGarden defendTheGarden;
-  
+    private Parent[] minigames = new Parent[2];
+    private Game1Controller game1Controller;
+    private Game2Controller game2Controller;
     @FXML
     public Label lives;
     @FXML
     public Label score;
-    @FXML
-    public ImageView nextGameButton;
-    @FXML
-    public Label nextGameLabel;
 
     @FXML
     public void initialize() {
         // initialize minigame 1
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-ChaseThatStupidGuy.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-1.fxml"));
             minigames[0] = loader.load();
-            chaseThatStupidGuy = loader.getController();
+            game1Controller = loader.getController();
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
 
         // initialize minigame 2
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-SortTheTrash.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-2.fxml"));
             minigames[1] = loader.load();
-            sortTheTrash = loader.getController();
-        } catch (Exception e) {
-            System.out.println("Error loading minigames scene: " + e.getMessage());
-        }
-
-        // initialize minigame 3
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-GrowtheForest.fxml"));
-            minigames[2] = loader.load();
-            growtheForest = loader.getController();
-        } catch (Exception e) {
-            System.out.println("Error loading minigames scene: " + e.getMessage());
-        }
-
-        //initialize minigame 4
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-DefendTheGarden.fxml"));
-            minigames[3] = loader.load();
-            defendTheGarden = loader.getController();
+            game2Controller = loader.getController();
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
@@ -76,21 +49,30 @@ public class TransitionScreenController {
     }
 
     @FXML
-    protected void onButtonClick(javafx.scene.input.MouseEvent event) {
-        AudioController.click();
-//        System.out.println(GameState.nextGame);
-        if (GameState.nextGame < minigames.length) {
+    protected void onButtonClick(javafx.event.ActionEvent event) {
+        // Randomly pick the next game to play
+        System.out.println(GameState.nextGame);
+        if (GameState.nextGame == 0) {
             GameState.nextGame++;
         } else {
-            GameState.nextGame = 0;
+            GameState.nextGame--;
         }
         if (GameState.currentLives > 0){
             try {
                 // Set the new root for the current scene
-                Scene scene = lives.getScene();
+                Scene scene = ((Node) event.getSource()).getScene();
+                switch (GameState.nextGame) {
+                    case 0:
+                        game1Controller.startCountdown(game1Controller.countdownLabel);
+                        break;
+                    case 1:
+                        game2Controller.startCountdown();
+                        break;
+                }
+
                 scene.setRoot(minigames[GameState.nextGame]);
             } catch (Exception e) {
-                System.out.println(e + " " + GameState.nextGame);
+                System.out.println(e);
             }
         } else {
             try {
@@ -102,31 +84,10 @@ public class TransitionScreenController {
                 Scene scene = ((Node) event.getSource()).getScene();
                 scene.setRoot(root);
             } catch (Exception e) {
-                System.out.println(e + " " + "mainmenu");
+                System.out.println(e);
            }
         }
     }
-
-    public void onButtonHover() {
-        nextGameButton.setX(nextGameButton.getX() - 10);
-        nextGameButton.setY(nextGameButton.getY() - 10);
-
-        nextGameButton.setFitWidth(nextGameButton.getFitWidth() + 20);
-        nextGameButton.setFitHeight(nextGameButton.getFitHeight() + 20);
-
-        nextGameLabel.setLayoutX(nextGameLabel.getLayoutX() + 10);
-    }
-
-    public void onButtonExit() {
-        nextGameButton.setX(nextGameButton.getX() + 10);
-        nextGameButton.setY(nextGameButton.getY() + 10);
-
-        nextGameButton.setFitWidth(nextGameButton.getFitWidth() - 20);
-        nextGameButton.setFitHeight(nextGameButton.getFitHeight() - 20);
-
-        nextGameLabel.setLayoutX(nextGameLabel.getLayoutX() - 10);
-    }
-
 
     protected void pickNextGame() {
         if ((int)(Math.random() * 2 ) != GameState.nextGame) {
