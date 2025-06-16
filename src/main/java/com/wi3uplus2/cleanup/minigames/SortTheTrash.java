@@ -1,5 +1,8 @@
-package com.wi3uplus2.cleanup;
+package com.wi3uplus2.cleanup.minigames;
 
+import com.wi3uplus2.cleanup.DatabaseHandler;
+import com.wi3uplus2.cleanup.GameState;
+import com.wi3uplus2.cleanup.TransitionScreenController;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -9,7 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -20,7 +22,7 @@ import javafx.util.Duration;
 import java.sql.SQLException;
 import java.util.Random;
 
-public class Game2Controller extends Game {
+public class SortTheTrash extends Game {
 
     // TODO: logika cuma ada beberapa trash dalam satu game, misalnya 5 trash setelah habis langsung ke transition screen
     @FXML

@@ -1,5 +1,7 @@
 package com.wi3uplus2.cleanup;
 
+import com.wi3uplus2.cleanup.minigames.ChaseThatStupidGuy;
+import com.wi3uplus2.cleanup.minigames.SortTheTrash;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -10,8 +12,8 @@ import javafx.scene.control.Label;
 public class TransitionScreenController {
 
     private Parent[] minigames = new Parent[2];
-    private Game1Controller game1Controller;
-    private Game2Controller game2Controller;
+    private ChaseThatStupidGuy game1Controller;
+    private SortTheTrash game2Controller;
     @FXML
     public Label lives;
     @FXML

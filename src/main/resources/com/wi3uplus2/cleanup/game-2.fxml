@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<Pane prefHeight="672.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.Game2Controller">
+<Pane prefHeight="672.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.minigames.SortTheTrash">
    <children>
       <StackPane layoutX="-7.0" layoutY="75.0" prefHeight="473.0" prefWidth="800.0">
           <Canvas fx:id="canvas" height="600" width="800" />

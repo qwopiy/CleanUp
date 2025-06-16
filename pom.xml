@@ -67,7 +67,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.cleanup_javafx/com.wi3uplus2.cleanup.Game2Controller
+                            <mainClass>com.example.cleanup_javafx/com.wi3uplus2.cleanup.minigames.SortTheTrash
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

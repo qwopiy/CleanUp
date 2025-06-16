@@ -1,16 +1,18 @@
-package com.wi3uplus2.cleanup;
+package com.wi3uplus2.cleanup.minigames;
 
+import com.wi3uplus2.cleanup.DatabaseHandler;
+import com.wi3uplus2.cleanup.GameState;
+import com.wi3uplus2.cleanup.TransitionScreenController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.sql.SQLException;
 
-public class Game1Controller extends Game{
+public class ChaseThatStupidGuy extends Game{
 
     @FXML
     private ImageView player;

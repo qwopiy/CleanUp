@@ -1,5 +1,7 @@
-package com.wi3uplus2.cleanup;
+package com.wi3uplus2.cleanup.minigames;
 
+import com.wi3uplus2.cleanup.GameState;
+import com.wi3uplus2.cleanup.TransitionScreenController;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
