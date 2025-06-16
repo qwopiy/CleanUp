@@ -16,6 +16,7 @@ public class CleanUpController {
     protected void onStartButtonClick(javafx.event.ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
+            System.out.println(loader.getLocation());
             Parent root = loader.load();
 
             // Get the controller and call init()

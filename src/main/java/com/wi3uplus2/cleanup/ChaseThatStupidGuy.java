@@ -1,8 +1,5 @@
-package com.wi3uplus2.cleanup.minigames;
+package com.wi3uplus2.cleanup;
 
-import com.wi3uplus2.cleanup.DatabaseHandler;
-import com.wi3uplus2.cleanup.GameState;
-import com.wi3uplus2.cleanup.TransitionScreenController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -97,6 +94,7 @@ public class ChaseThatStupidGuy extends Game{
         try {
             win();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
+            System.out.println(loader.getLocation());
             Parent root = loader.load();
             countdownTimeline.stop();
 

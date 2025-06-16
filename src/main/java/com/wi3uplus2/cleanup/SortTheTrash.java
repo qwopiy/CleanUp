@@ -1,8 +1,5 @@
-package com.wi3uplus2.cleanup.minigames;
+package com.wi3uplus2.cleanup;
 
-import com.wi3uplus2.cleanup.DatabaseHandler;
-import com.wi3uplus2.cleanup.GameState;
-import com.wi3uplus2.cleanup.TransitionScreenController;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -28,6 +25,8 @@ public class SortTheTrash extends Game {
     // TODO: logika cuma ada beberapa trash dalam satu game, misalnya 5 trash setelah habis langsung ke transition screen
     @FXML
     private Canvas canvas;
+    double canvasX;
+    double canvasY;
     @FXML
     private Label countdownLabel;
 
@@ -48,17 +47,20 @@ public class SortTheTrash extends Game {
     @Override
     void lose() throws SQLException {
         GameState.currentLives--;
+        GameState.currentScore += score;
         DatabaseHandler.insertMinigameSessionData(2, false);
     }
 
     class Trash {
         String type;
+        Image image;
         double x, y;
         double offsetX, offsetY;
         boolean dragging = false;
 
-        public Trash(String type, double x, double y) {
+        public Trash(String type,Image image, double x, double y) {
             this.type = type;
+            this.image = image;
             this.x = x;
             this.y = y;
         }
@@ -76,18 +78,35 @@ public class SortTheTrash extends Game {
             {WIDTH / 2, 150, 1}, // organik
             {WIDTH * 2 / 3 + 150, 150, 2}  // B3
     };
-
-    //TODO: buat asset loader
     private Image[] binImage = {
-            new Image(getClass().getResourceAsStream("/com/wi3uplus2/cleanup/assets/images/object/anorganik_trashCan.png")),
-            new Image(getClass().getResourceAsStream("/com/wi3uplus2/cleanup/assets/images/object/organik_trashCan.png")),
-            new Image(getClass().getResourceAsStream("/com/wi3uplus2/cleanup/assets/images/object/B3_trashCan.png"))
+            AssetLoader.inorganicTrashBin,
+            AssetLoader.organicTrashBin,
+            AssetLoader.B3TrashBin
+    };
+
+    // Gambar sampah yang bisa diambil
+    private Image[] trashImages = {
+            AssetLoader.inorganicTrash[0], // plasticBag
+            AssetLoader.inorganicTrash[1], // plasticBottle
+            AssetLoader.inorganicTrash[2], // snackPack
+            AssetLoader.inorganicTrash[3], // sodaCan
+            AssetLoader.organicTrash[0],   // apple
+            AssetLoader.organicTrash[1],   // banana
+            AssetLoader.organicTrash[2],   // dryLeaf
+            AssetLoader.organicTrash[3],   // stick
+            AssetLoader.B3Trash[0],        // battery
+            AssetLoader.B3Trash[1],        // brokenGlass
+            AssetLoader.B3Trash[2],        // brokenLamp
+            AssetLoader.B3Trash[3]         // poison
     };
 
     @FXML
     public void initialize() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         newTrash();
+
+        canvasX = canvas.getWidth();
+        canvasY = canvas.getHeight();
 
         canvas.setOnMousePressed(this::onMousePressed);
         canvas.setOnMouseDragged(this::onMouseDragged);
@@ -134,8 +153,6 @@ public class SortTheTrash extends Game {
     }
 
     void draw(GraphicsContext gc) {
-        double canvasX = gc.getCanvas().getWidth();
-        double canvasY = gc.getCanvas().getHeight();
         gc.setFill(Color.BEIGE);
         gc.fillRect(0, 0, canvasX, canvasY);
 
@@ -146,9 +163,10 @@ public class SortTheTrash extends Game {
             int typeIdx = (int) bins[i][2];
             String label = types[typeIdx];
 
-            gc.drawImage(binImage[i],x - 100, canvasY - 200, 150, 150);
+            gc.drawImage(binImage[i],x - 100, canvasY - 200, width, 150);
 
             gc.setFill(Color.BLACK);
+//            gc.fillRect(x - 100, canvasY - 200, width, 150);
             gc.setFont(Font.font(18));
             gc.setTextAlign(javafx.scene.text.TextAlignment.CENTER);
             gc.fillText(label.toUpperCase(), x - 25, canvasY - 127);
@@ -156,21 +174,18 @@ public class SortTheTrash extends Game {
 
         // Gambar sampah
         if (currentTrash != null) {
-            gc.setFill(getColor(currentTrash.type));
-            gc.fillOval(currentTrash.x - 30, currentTrash.y - 30, 60, 60);
-
-            gc.setFill(Color.BLACK);
-            gc.setFont(Font.font(14));
-            gc.fillText(currentTrash.type, currentTrash.x - 20, currentTrash.y);
+            gc.drawImage(currentTrash.image, currentTrash.x - 30, currentTrash.y - 30, 100, 100);
         }
 
         // Score
         gc.setFill(Color.BLACK);
         gc.setFont(Font.font(24));
         gc.fillText("Score: " + score, 50, 30);
+        gc.fillText("Trash Count: " + currentTrashCount + "/" + trashLimit, 50, 60);
     }
 
     void onMousePressed(MouseEvent e) {
+        System.out.println(e.getX() + " " + e.getY());
         if (currentTrash != null &&
                 e.getX() >= currentTrash.x && e.getX() <= currentTrash.x + 60 &&
                 e.getY() >= currentTrash.y && e.getY() <= currentTrash.y + 60) {
@@ -197,29 +212,71 @@ public class SortTheTrash extends Game {
                 int idx = (int) bin[2];
                 String type = types[idx];
 
-                if (currentTrash.x + 30 >= x && currentTrash.x + 30 <= x + width &&
-                        currentTrash.y + 30 >= HEIGHT - 100) {
+                if (isTrashIntersectingBin(currentTrash, bin)) {
                     if (type.equals(currentTrash.type)) {
                         score += 10;
-                        newTrash();
-                        return;
                     } else {
                         score -= 5;
-                        newTrash();
-                        return;
                     }
+                    currentTrashCount++;
+                    newTrash();
+                    return;
                 }
             }
 
             // Kalau nggak kena tong manapun, reset posisi
             currentTrash.x = WIDTH / 2 - 30;
-            currentTrash.y = HEIGHT / 2 - 30;
+            currentTrash.y = HEIGHT / 2 - 100;
         }
     }
 
+    private boolean isTrashIntersectingBin(Trash trash, double[] bins) {
+            double binX = bins[0];
+            double binWidth = bins[1];
+            double binY = canvasY - 200; // Y position of the bins
+            double binHeight = 150; // Height of the bins
+
+            double trashRight = trash.x + 60; // Width of trash
+            double trashBottom = trash.y + 60; // Height of trash
+
+            if (trashRight >= binX &&
+                trash.x <= binX + binWidth &&
+                trashBottom >= binY &&
+                trash.y <= binY + binHeight) {
+                return true;
+            }
+        return false;
+    }
+
     void newTrash() {
+        if (currentTrashCount >= trashLimit) {
+            try {
+                if(score >= 0) {
+                    win();
+                } else {
+                    lose();
+                }
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
+                Parent root = loader.load();
+                TransitionScreenController controller = loader.getController();
+                controller.show();
+                Scene scene = canvas.getScene();
+                scene.setRoot(root);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            return;
+        }
         String type = types[rand.nextInt(types.length)];
-        currentTrash = new Trash(type, WIDTH / 2 - 30, HEIGHT / 2 - 30);
+        int imageIndex = switch (type) {
+            case "anorganik" -> rand.nextInt(4); // 0-3
+            case "organik" -> 4 + rand.nextInt(4); // 4-7
+            case "B3" -> 8 + rand.nextInt(4); // 8-11
+            default -> 0; // fallback
+        };
+
+        Image image = trashImages[imageIndex];
+        currentTrash = new Trash(type, image, WIDTH / 2 - 30, HEIGHT / 2 - 100);
     }
 
     Color getColor(String type) {

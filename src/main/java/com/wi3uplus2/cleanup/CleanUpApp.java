@@ -13,7 +13,7 @@ public class CleanUpApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(CleanUpApp.class.getResource("/com/wi3uplus2/cleanup/game-SortTheTrash.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(CleanUpApp.class.getResource("game-SortTheTrash.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Clean Up Game");
         stage.setScene(scene);
@@ -24,6 +24,7 @@ public class CleanUpApp extends Application {
 
     public static void main(String[] args) {
         DatabaseHandler.connect();
+        AssetLoader.init();
         launch(args);
     }
 }

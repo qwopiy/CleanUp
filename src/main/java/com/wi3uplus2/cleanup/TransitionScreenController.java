@@ -1,7 +1,5 @@
 package com.wi3uplus2.cleanup;
 
-import com.wi3uplus2.cleanup.minigames.ChaseThatStupidGuy;
-import com.wi3uplus2.cleanup.minigames.SortTheTrash;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
