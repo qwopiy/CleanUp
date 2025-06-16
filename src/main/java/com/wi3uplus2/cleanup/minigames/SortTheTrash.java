@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -30,11 +31,13 @@ public class SortTheTrash extends Game {
     @FXML
     private Label countdownLabel;
 
+    private int trashLimit = 5;
+    private int currentTrashCount = 0;
     private int countdownSeconds = 10; // Set countdown duration
     private Timeline countdownTimeline;
 
-    final int WIDTH = 800;
-    final int HEIGHT = 600;
+    final int WIDTH = 1280;
+    final int HEIGHT = 720;
 
     @Override
     void win() throws SQLException {
@@ -65,13 +68,20 @@ public class SortTheTrash extends Game {
     Random rand = new Random();
 
     int score = 0;
-    String[] types = {"plastic", "paper", "metal"};
+    String[] types = {"anorganik", "organik", "B3"};
 
     // Tong sampah (x, lebar, label, warna)
     double[][] bins = {
-            {100, 150, 0}, // plastik
-            {325, 150, 1}, // kertas
-            {550, 150, 2}  // metal
+            {WIDTH / 3 - 150, 150, 0}, // anorganik
+            {WIDTH / 2, 150, 1}, // organik
+            {WIDTH * 2 / 3 + 150, 150, 2}  // B3
+    };
+
+    //TODO: buat asset loader
+    private Image[] binImage = {
+            new Image(getClass().getResourceAsStream("/com/wi3uplus2/cleanup/assets/images/object/anorganik_trashCan.png")),
+            new Image(getClass().getResourceAsStream("/com/wi3uplus2/cleanup/assets/images/object/organik_trashCan.png")),
+            new Image(getClass().getResourceAsStream("/com/wi3uplus2/cleanup/assets/images/object/B3_trashCan.png"))
     };
 
     @FXML
@@ -124,8 +134,10 @@ public class SortTheTrash extends Game {
     }
 
     void draw(GraphicsContext gc) {
+        double canvasX = gc.getCanvas().getWidth();
+        double canvasY = gc.getCanvas().getHeight();
         gc.setFill(Color.BEIGE);
-        gc.fillRect(0, 0, WIDTH, HEIGHT);
+        gc.fillRect(0, 0, canvasX, canvasY);
 
         // Gambar tong sampah
         for (int i = 0; i < bins.length; i++) {
@@ -134,28 +146,28 @@ public class SortTheTrash extends Game {
             int typeIdx = (int) bins[i][2];
             String label = types[typeIdx];
 
-            gc.setFill(Color.GRAY);
-            gc.fillRect(x, HEIGHT - 100, width, 80);
+            gc.drawImage(binImage[i],x - 100, canvasY - 200, 150, 150);
 
-            gc.setFill(Color.WHITE);
-            gc.setFont(Font.font(20));
-            gc.fillText(label.toUpperCase(), x + 30, HEIGHT - 50);
+            gc.setFill(Color.BLACK);
+            gc.setFont(Font.font(18));
+            gc.setTextAlign(javafx.scene.text.TextAlignment.CENTER);
+            gc.fillText(label.toUpperCase(), x - 25, canvasY - 127);
         }
 
         // Gambar sampah
         if (currentTrash != null) {
             gc.setFill(getColor(currentTrash.type));
-            gc.fillOval(currentTrash.x, currentTrash.y, 60, 60);
+            gc.fillOval(currentTrash.x - 30, currentTrash.y - 30, 60, 60);
 
             gc.setFill(Color.BLACK);
             gc.setFont(Font.font(14));
-            gc.fillText(currentTrash.type, currentTrash.x + 5, currentTrash.y + 35);
+            gc.fillText(currentTrash.type, currentTrash.x - 20, currentTrash.y);
         }
 
         // Score
         gc.setFill(Color.BLACK);
         gc.setFont(Font.font(24));
-        gc.fillText("Score: " + score, 20, 30);
+        gc.fillText("Score: " + score, 50, 30);
     }
 
     void onMousePressed(MouseEvent e) {
@@ -212,9 +224,9 @@ public class SortTheTrash extends Game {
 
     Color getColor(String type) {
         return switch (type) {
-            case "plastic" -> Color.LIGHTBLUE;
-            case "paper" -> Color.BURLYWOOD;
-            case "metal" -> Color.SILVER;
+            case "anorganik" -> Color.LIGHTBLUE;
+            case "organik" -> Color.BURLYWOOD;
+            case "B3" -> Color.SILVER;
             default -> Color.BLACK;
         };
     }
