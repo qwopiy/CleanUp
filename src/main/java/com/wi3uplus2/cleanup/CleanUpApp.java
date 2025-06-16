@@ -45,7 +45,7 @@ public class CleanUpApp extends Application {
 //    }
 
     public static void main(String[] args) {
-        DatabaseHandler.connect();
+//        DatabaseHandler.connect();
         launch(args);
     }
 }
