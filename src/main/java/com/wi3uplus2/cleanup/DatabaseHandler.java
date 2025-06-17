@@ -44,7 +44,7 @@ public class DatabaseHandler {
     }
 
     public static void insertSessionData(int totalScore) throws SQLException {
-        String query = "INSERT INTO GameSessions (player_id, score) VALUES (1, " + totalScore + ");";
+        String query = "UPDATE GameSessions SET score = " + totalScore + " WHERE session_id = (SELECT MAX(session_id) FROM GameSessions);";
         try {
             InsertData(query);
         } catch (SQLException e) {
@@ -63,15 +63,23 @@ public class DatabaseHandler {
     }
 
     // bandingkan current_condition_num dengan condition yang ditentui di level masing-masing
-    public static void checkPlayerAchievements(int id, int condition) throws SQLException {
+    public static void checkPlayerAchievements(int id, int current_num, int condition) throws SQLException {
         try {
-            String query = "SELECT current_condition_num FROM Achievement WHERE achievement_id = " + id + ";";
-            int currentConditionNum = readDataInt(query, 1);
+            String query = "SELECT achievement_id FROM PlayerAchievements WHERE player_id = 1 AND achievement_id = " + id + ";";
+            int achievementExists = readDataInt(query, 1);
+            if (achievementExists > 0 ) {
+                System.out.println("Achievement already exists for player.");
+                return;
+            }
 
+            query = "SELECT current_condition_num FROM Achievement WHERE achievement_id = " + id + ";";
+            int currentConditionNum = readDataInt(query, 1);
             if (currentConditionNum >= condition) {
-                String insertToPlayerAchievement = "INSERT INTO PlayerAchievements (player_id, achievement_id) " +
+                query = "INSERT INTO PlayerAchievements (player_id, achievement_id) " +
                         "VALUES (1, " + id + ");";
-                InsertData(insertToPlayerAchievement);
+                InsertData(query);
+            }else{
+                insertToAchievement(id, current_num);
             }
         } catch (SQLException e) {
             System.out.println(e);

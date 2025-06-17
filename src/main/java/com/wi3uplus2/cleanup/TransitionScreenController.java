@@ -29,14 +29,14 @@ public class TransitionScreenController {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
 
-        // initialize minigame 2
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-2.fxml"));
-            minigames[1] = loader.load();
-            game2Controller = loader.getController();
-        } catch (Exception e) {
-            System.out.println("Error loading minigames scene: " + e.getMessage());
-        }
+//        // initialize minigame 2
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-2.fxml"));
+//            minigames[1] = loader.load();
+//            game2Controller = loader.getController();
+//        } catch (Exception e) {
+//            System.out.println("Error loading minigames scene: " + e.getMessage());
+//        }
 
         // initialize minigame GrowtheForest
         try {
