@@ -1,6 +1,7 @@
 package com.wi3uplus2.cleanup;
 
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
 
 import java.util.Objects;
 
@@ -15,6 +16,14 @@ public class AssetLoader {
     public static Image organicTrashBin;
     public static Image inorganicTrashBin;
     public static Image B3TrashBin;
+
+    public static Media bgm = new Media(
+            AudioController.class.getResource("/com/wi3uplus2/cleanup/assets/sounds/laguWibu.mp3").toExternalForm()
+    );
+
+    public static Media boom = new Media(
+            AudioController.class.getResource("/com/wi3uplus2/cleanup/assets/sounds/sfx/vine-boom.mp3").toExternalForm()
+    );
 
     // tambah asset lainnya sesuai kebutuhan
     public static void init() {

@@ -231,20 +231,21 @@ public class SortTheTrash extends Game {
     }
 
     private boolean isTrashIntersectingBin(Trash trash, double[] bins) {
-            double binX = bins[0];
-            double binWidth = bins[1];
-            double binY = canvasY - 200; // Y position of the bins
-            double binHeight = 150; // Height of the bins
+        AudioController.vineBoom();
+        double binX = bins[0];
+        double binWidth = bins[1];
+        double binY = canvasY - 200; // Y position of the bins
+        double binHeight = 150; // Height of the bins
 
-            double trashRight = trash.x + 60; // Width of trash
-            double trashBottom = trash.y + 60; // Height of trash
+        double trashRight = trash.x + 60; // Width of trash
+        double trashBottom = trash.y + 60; // Height of trash
 
-            if (trashRight >= binX &&
-                trash.x <= binX + binWidth &&
-                trashBottom >= binY &&
-                trash.y <= binY + binHeight) {
-                return true;
-            }
+        if (trashRight >= binX &&
+            trash.x <= binX + binWidth &&
+            trashBottom >= binY &&
+            trash.y <= binY + binHeight) {
+            return true;
+        }
         return false;
     }
 
