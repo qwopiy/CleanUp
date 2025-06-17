@@ -10,8 +10,8 @@ import javafx.scene.control.Label;
 public class TransitionScreenController {
 
     private Parent[] minigames = new Parent[2];
-    private ChaseThatStupidGuy game1Controller;
-    private SortTheTrash game2Controller;
+    private ChaseThatStupidGuy chaseThatStupidGuy;
+    private SortTheTrash sortTheTrash;
     @FXML
     public Label lives;
     @FXML
@@ -23,7 +23,7 @@ public class TransitionScreenController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game-ChaseThatStupidGuy.fxml"));
             minigames[0] = loader.load();
-            game1Controller = loader.getController();
+            chaseThatStupidGuy = loader.getController();
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
@@ -32,7 +32,7 @@ public class TransitionScreenController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game-SortTheTrash.fxml"));
             minigames[1] = loader.load();
-            game2Controller = loader.getController();
+            sortTheTrash = loader.getController();
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
@@ -63,10 +63,10 @@ public class TransitionScreenController {
                 Scene scene = ((Node) event.getSource()).getScene();
                 switch (GameState.nextGame) {
                     case 0:
-                        game1Controller.startCountdown(game1Controller.countdownLabel);
+                        chaseThatStupidGuy.startCountdown(chaseThatStupidGuy.countdownLabel);
                         break;
                     case 1:
-                        game2Controller.startCountdown();
+                        sortTheTrash.startCountdown();
                         break;
                 }
 
