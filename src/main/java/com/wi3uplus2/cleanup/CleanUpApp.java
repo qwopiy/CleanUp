@@ -5,15 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.sql.SQLException;
-
 public class CleanUpApp extends Application {
 
 
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(CleanUpApp.class.getResource("game-SortTheTrash.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(CleanUpApp.class.getResource("main-menu.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Clean Up Game");
         stage.setScene(scene);
@@ -25,6 +23,7 @@ public class CleanUpApp extends Application {
     public static void main(String[] args) {
         DatabaseHandler.connect();
         AssetLoader.init();
+        AudioController.startBGM();
         launch(args);
     }
 }

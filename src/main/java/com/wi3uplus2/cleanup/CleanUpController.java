@@ -14,6 +14,7 @@ public class CleanUpController {
 
     @FXML
     protected void onStartButtonClick(javafx.event.ActionEvent event) {
+        AudioController.vineBoom();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
             System.out.println(loader.getLocation());

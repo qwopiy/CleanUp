@@ -26,12 +26,14 @@ public class ChaseThatStupidGuy extends Game{
 
     @Override
     void win() throws SQLException {
+        AudioController.vineBoom();
         GameState.currentScore += 10;
         DatabaseHandler.insertMinigameSessionData(1, true);
     }
 
     @Override
     void lose() throws SQLException {
+        AudioController.vineBoom();
         GameState.currentLives--;
         DatabaseHandler.insertMinigameSessionData(1, false);
     }
