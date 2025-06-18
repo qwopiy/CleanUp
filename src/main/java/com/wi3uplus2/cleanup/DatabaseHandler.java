@@ -3,6 +3,9 @@ package com.wi3uplus2.cleanup;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHandler {
 
@@ -26,6 +29,37 @@ public class DatabaseHandler {
     public static int readDataInt(String query, int column) throws SQLException {
         var rs = conn.prepareStatement(query).executeQuery();
         return rs.getInt(column);
+    }
+
+    public static int GetHighScore() {
+        String query = "SELECT high_score FROM player;";
+        try {
+            return readDataInt(query, 1);
+        } catch (SQLException e) {
+            System.err.println("Error saat mengambil high score: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    public static List<PlayerAchievmentElement> getAllPlayerAchievement() {
+        List<PlayerAchievmentElement> playerAchievement = new ArrayList<>();
+        String query = "SELECT a.achievement_id, a.name, pa.unlocked_at " +
+                "FROM Achievement a " +
+                "LEFT JOIN PlayerAchievements pa ON a.achievement_id = pa.achievement_id " +
+                "ORDER BY a.achievement_id ASC";
+        try{;
+            var rs = conn.prepareStatement(query).executeQuery();
+            while (rs.next()) {
+                int achievementId = rs.getInt("achievement_id");
+                String name = rs.getString("name");
+                String unlockedAt = rs.getString("unlocked_at") == null ? "null" : rs.getString("unlocked_at");;
+
+                playerAchievement.add(new PlayerAchievmentElement(achievementId, name, unlockedAt));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error saat mengambil semua produk: " + e.getMessage());
+        }
+        return playerAchievement;
     }
 
     public static void insertMinigameSessionData(int minigameID, boolean isSuccessful) throws SQLException {

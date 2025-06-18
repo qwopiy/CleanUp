@@ -13,12 +13,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AchievementScreenController {
     @FXML
     private Label Highscore;
 
     @FXML
     private VBox contentList;
+
+    List<PlayerAchievmentElement> playerAchievement = new ArrayList<>();
 
 
     @FXML
@@ -34,9 +39,15 @@ public class AchievementScreenController {
 
 
     public void initialize() {
+        playerAchievement = DatabaseHandler.getAllPlayerAchievement();
+        Highscore.setText(String.valueOf(DatabaseHandler.GetHighScore()));
+        int i = 0;
 
+        while (i < playerAchievement.size()) {
+            int achievementId = playerAchievement.get(i).getId();
+            String achievementName = playerAchievement.get(i).getName();
+            String dateAchieved = playerAchievement.get(i).getDateAchieved();
 
-        for (int i = 1; i < 10; i++) {
             HBox baris = new HBox(50);
             Image image = new Image(getClass().getResourceAsStream("/com/wi3uplus2/cleanup/assets/images/object/B3_poison.png"));
 
@@ -44,11 +55,20 @@ public class AchievementScreenController {
             img.setFitWidth(100);
             img.setFitHeight(100);
 
+            Label nameLabel = new Label(achievementName);
+            Label dateLabel;
+            if(dateAchieved.equals("null")) {
+                dateLabel = new Label("Locked");
+            } else {
+                dateLabel = new Label("Achieved at: " + dateAchieved);
+            }
+
             VBox labelBox = new VBox();
-            labelBox.getChildren().addAll(new Label("Game ke-" + i), new Label("Jumlah Mati:"));
+            labelBox.getChildren().addAll(nameLabel, dateLabel);
 
             baris.getChildren().addAll(img, labelBox);
             contentList.getChildren().add(baris);
+            i++;
         }
     }
 
