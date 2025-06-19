@@ -10,12 +10,12 @@ import javafx.scene.image.ImageView;
 
 public class TransitionScreenController {
 
-    private Parent[] minigames = new Parent[3];
+    private Parent[] minigames = new Parent[4];
 
     private ChaseThatStupidGuy chaseThatStupidGuy;
     private SortTheTrash sortTheTrash;
     private GrowtheForest growtheForest;
-    private DefendTheGarden_Controller defendTheGarden_Controller;
+    private DefendTheGarden defendTheGarden;
   
     @FXML
     public Label lives;
@@ -55,11 +55,11 @@ public class TransitionScreenController {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
 
-        //initialize minigame 3
+        //initialize minigame 4
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("DefendTheGarden.fxml"));
-            minigames[2] = loader.load();
-            defendTheGarden_Controller = loader.getController();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-DefendTheGarden.fxml"));
+            minigames[3] = loader.load();
+            defendTheGarden = loader.getController();
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }

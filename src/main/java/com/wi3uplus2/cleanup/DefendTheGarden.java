@@ -9,9 +9,8 @@ import javafx.scene.layout.AnchorPane;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class DefendTheGarden_Controller extends Game {
+public class DefendTheGarden extends Game {
     @Override
     void win() {
         GameState.currentScore += 50;
