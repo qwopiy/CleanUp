@@ -23,7 +23,7 @@ public class CleanUpController {
     @FXML
     public void onStartButtonClick(javafx.scene.input.MouseEvent event) {
         try {
-            AudioController.vineBoom();
+            AudioController.click();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
             System.out.println(loader.getLocation());
             Parent root = loader.load();
@@ -67,6 +67,7 @@ public class CleanUpController {
 
     public void onSettingButtonClick(javafx.scene.input.MouseEvent event) {
         try {
+            AudioController.click();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("setting.fxml"));
             Parent root = loader.load();
             Scene scene = ((Node) event.getSource()).getScene();
@@ -94,6 +95,7 @@ public class CleanUpController {
 
     public void onAchievementButtonClick(javafx.scene.input.MouseEvent event) {
         try {
+            AudioController.click();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("achievement.fxml"));
             Parent root = loader.load();
             Scene scene = ((Node) event.getSource()).getScene();

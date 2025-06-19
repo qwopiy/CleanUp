@@ -28,7 +28,7 @@
             <Image url="@assets/images/object/UI_Button_up.png" />
          </image>
       </ImageView>
-      <Label fx:id="nextGameLabel" layoutX="893.0" layoutY="120.0" onMouseClicked="#onButtonClick" onMouseEntered="#onButtonHover" onMouseExited="#onButtonExit" prefHeight="70.0" prefWidth="185.0" text="Lanjut..." textAlignment="CENTER" textFill="#dc8604">
+      <Label fx:id="nextGameLabel" layoutX="893.0" layoutY="120.0" onMouseEntered="#onButtonHover" onMouseExited="#onButtonExit" prefHeight="70.0" prefWidth="185.0" text="Lanjut..." textAlignment="CENTER" textFill="#dc8604">
          <font>
             <Font name="Comic Sans MS" size="48.0" />
          </font>

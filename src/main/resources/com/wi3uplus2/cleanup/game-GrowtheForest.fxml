@@ -6,10 +6,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane onMouseClicked="#onClick" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.GrowtheForest">
+<AnchorPane onMouseClicked="#onClick" prefHeight="706.0" prefWidth="1260.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.GrowtheForest">
    <children>
       <ImageView fitHeight="720.0" fitWidth="1280.0" layoutX="309.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -48,5 +49,19 @@
             <Image url="@assets/images/object/Vegetation_TreeAbove.png" />
          </image>
       </ImageView>
+      <Pane fx:id="preGame" onMouseClicked="#onFirstClick" opacity="0.44" prefHeight="722.0" prefWidth="1280.0" style="-fx-background-color: #000000;">
+         <children>
+            <Label layoutX="527.0" layoutY="257.0" prefHeight="58.0" prefWidth="244.0" text="Rapid Tap " textFill="WHITE">
+               <font>
+                  <Font name="Comic Sans MS" size="48.0" />
+               </font>
+            </Label>
+            <Label layoutX="328.0" layoutY="324.0" prefHeight="172.0" prefWidth="641.0" text="Tekan layar berulang kali dan secepat mungkin menanam pohon sebanyak mungkin!!" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Comic Sans MS" size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

@@ -18,11 +18,23 @@ public class AssetLoader {
     public static Image B3TrashBin;
 
     public static Media bgm = new Media(
-            AudioController.class.getResource("/com/wi3uplus2/cleanup/assets/sounds/laguWibu.mp3").toExternalForm()
+            AudioController.class.getResource("/com/wi3uplus2/cleanup/assets/sounds/bgm1.mp3").toExternalForm()
     );
 
     public static Media boom = new Media(
             AudioController.class.getResource("/com/wi3uplus2/cleanup/assets/sounds/sfx/vine-boom.mp3").toExternalForm()
+    );
+
+    public static Media clickSFX = new Media(
+            AudioController.class.getResource("/com/wi3uplus2/cleanup/assets/sounds/sfx/click.mp3").toExternalForm()
+    );
+
+    public static Media winSFX = new Media(
+            AudioController.class.getResource("/com/wi3uplus2/cleanup/assets/sounds/sfx/winSFX.mp3").toExternalForm()
+    );
+
+    public static Media loseSFX = new Media(
+            AudioController.class.getResource("/com/wi3uplus2/cleanup/assets/sounds/sfx/loseSFX.mp3").toExternalForm()
     );
 
     // tambah asset lainnya sesuai kebutuhan

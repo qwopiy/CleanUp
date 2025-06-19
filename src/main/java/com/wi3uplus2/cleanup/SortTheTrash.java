@@ -12,6 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
@@ -21,6 +22,7 @@ import java.sql.SQLException;
 import java.util.Random;
 
 public class SortTheTrash extends Game {
+    // BUG: entah kenapa nyawa turun 2-3 pas kalah, padahal harusnya 1
 
     @FXML
     private Canvas canvas;
@@ -28,10 +30,11 @@ public class SortTheTrash extends Game {
     double canvasY;
     @FXML
     private Label countdownLabel;
+    @FXML
+    private Pane preGame;
 
     private int trashLimit = 5;
     private int currentTrashCount = 0;
-    private int countdownSeconds = 10; // Set countdown duration
     private Timeline countdownTimeline;
 
     final int WIDTH = 1280;
@@ -119,37 +122,6 @@ public class SortTheTrash extends Game {
         }.start();
     }
 
-    public void startCountdown() {
-        countdownLabel.setText("Time: " + countdownSeconds);
-        countdownTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(1), event -> {
-                    countdownSeconds--;
-                    countdownLabel.setText("Time: " + countdownSeconds);
-                    if (countdownSeconds <= 0) {
-                        countdownTimeline.stop();
-                        onCountdownEnd();
-                    }
-                })
-        );
-        countdownTimeline.setCycleCount(countdownSeconds);
-        countdownTimeline.play();
-    }
-
-    private void onCountdownEnd() {
-        // Switch to transition screen or show game over
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
-            Parent root = loader.load();
-            TransitionScreenController controller = loader.getController();
-            controller.show();
-            Scene scene = countdownLabel.getScene();
-            scene.setRoot(root);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-    }
-
     void draw(GraphicsContext gc) {
         gc.setFill(Color.BEIGE);
         gc.fillRect(0, 0, canvasX, canvasY);
@@ -179,7 +151,13 @@ public class SortTheTrash extends Game {
         gc.setFill(Color.BLACK);
         gc.setFont(Font.font(24));
         gc.fillText("Score: " + score, 50, 30);
-        gc.fillText("Trash Count: " + currentTrashCount + "/" + trashLimit, 50, 60);
+        gc.fillText("Trash Count: " + currentTrashCount + "/" + trashLimit, 95, 60);
+    }
+
+    public void onFirstClick() {
+        preGame.setVisible(false);
+        countdownLabel.setVisible(true);
+        startCountdown(countdownLabel);
     }
 
     void onMousePressed(MouseEvent e) {
@@ -229,7 +207,6 @@ public class SortTheTrash extends Game {
     }
 
     private boolean isTrashIntersectingBin(Trash trash, double[] bins) {
-        AudioController.vineBoom();
         double binX = bins[0];
         double binWidth = bins[1];
         double binY = canvasY - 200; // Y position of the bins
@@ -242,6 +219,7 @@ public class SortTheTrash extends Game {
             trash.x <= binX + binWidth &&
             trashBottom >= binY &&
             trash.y <= binY + binHeight) {
+            AudioController.win();
             return true;
         }
         return false;
@@ -261,6 +239,7 @@ public class SortTheTrash extends Game {
                 controller.show();
                 Scene scene = canvas.getScene();
                 scene.setRoot(root);
+                return;
             } catch (Exception e) {
                 System.out.println(e);
             }

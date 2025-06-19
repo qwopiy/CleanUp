@@ -10,9 +10,10 @@ import javafx.scene.image.ImageView;
 
 public class TransitionScreenController {
 
-    private Parent[] minigames = new Parent[2];
+    private Parent[] minigames = new Parent[3];
     private ChaseThatStupidGuy chaseThatStupidGuy;
     private SortTheTrash sortTheTrash;
+    private GrowtheForest growtheForest;
     @FXML
     public Label lives;
     @FXML
@@ -41,6 +42,15 @@ public class TransitionScreenController {
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
+
+        // initialize minigame 3
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-GrowtheForest.fxml"));
+            minigames[2] = loader.load();
+            growtheForest = loader.getController();
+        } catch (Exception e) {
+            System.out.println("Error loading minigames scene: " + e.getMessage());
+        }
     }
 
     @FXML
@@ -55,27 +65,30 @@ public class TransitionScreenController {
 
     @FXML
     protected void onButtonClick(javafx.scene.input.MouseEvent event) {
-        // Randomly pick the next game to play
+        AudioController.click();
         System.out.println(GameState.nextGame);
-        if (GameState.nextGame == 0) {
+        if (GameState.nextGame < 3) {
             GameState.nextGame++;
         } else {
-            GameState.nextGame--;
+            GameState.nextGame = 0;
         }
         if (GameState.currentLives > 0){
             try {
                 // Set the new root for the current scene
-                Scene scene = ((Node) event.getSource()).getScene();
+                Scene scene = lives.getScene();
                 switch (GameState.nextGame) {
                     case 0:
-                        chaseThatStupidGuy.startCountdown(chaseThatStupidGuy.countdownLabel);
+//                        chaseThatStupidGuy.startCountdown(chaseThatStupidGuy.countdownLabel);
                         break;
                     case 1:
-                        sortTheTrash.startCountdown();
+//                        sortTheTrash.startCountdown();
+                        break;
+                    case 2:
+//                        growtheForest.startCountdown(growtheForest.countdownLabel);
                         break;
                 }
 
-                scene.setRoot(minigames[GameState.nextGame]);
+                scene.setRoot(minigames[2]);
             } catch (Exception e) {
                 System.out.println(e);
             }

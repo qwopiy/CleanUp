@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
 import java.sql.SQLException;
 
@@ -17,6 +18,8 @@ public class ChaseThatStupidGuy extends Game{
     private ImageView pembuangSampah;
     @FXML
     public Label countdownLabel;
+    @FXML
+    private Pane preGame;
 
     private String difficulty = "easy";
     private int playerSpeed = 10;
@@ -26,14 +29,14 @@ public class ChaseThatStupidGuy extends Game{
 
     @Override
     void win() throws SQLException {
-        AudioController.vineBoom();
+        AudioController.win();
         GameState.currentScore += 10;
         DatabaseHandler.insertMinigameSessionData(1, true);
     }
 
     @Override
     void lose() throws SQLException {
-        AudioController.vineBoom();
+        AudioController.lose();
         GameState.currentLives--;
         DatabaseHandler.insertMinigameSessionData(1, false);
     }
@@ -69,6 +72,12 @@ public class ChaseThatStupidGuy extends Game{
         }
 
         System.out.println(difficulty);
+    }
+
+    public void onFirstClick() {
+        preGame.setVisible(false);
+        countdownLabel.setVisible(true);
+        startCountdown(countdownLabel);
     }
 
     public void onClick() {

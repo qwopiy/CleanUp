@@ -30,6 +30,7 @@ public class SettingController {
 
     public void onClickExit() {
         try {
+            AudioController.click();
             Parent root = FXMLLoader.load(getClass().getResource("main-menu.fxml"));
             Scene scene = bgmControl.getScene();
             scene.setRoot(root);
@@ -49,6 +50,6 @@ public class SettingController {
         System.out.println(sfxControl.getValue());
         AudioController.sfxVolume = sfxControl.getValue() / 100.0;
         DatabaseHandler.setVolume("sfx", bgmControl.getValue() / 100.0);
-        AudioController.vineBoom();
+        AudioController.click();
     }
 }

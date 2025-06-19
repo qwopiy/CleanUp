@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 import java.awt.Point;
@@ -25,6 +26,8 @@ public class GrowtheForest extends Game {
     private GridPane forestGrid;
     @FXML
     public Label countdownLabel;
+    @FXML
+    private Pane preGame;
 
     private String difficulty = "easy";
     private List<Point> treePositions = new ArrayList<>();
@@ -61,6 +64,12 @@ public class GrowtheForest extends Game {
                 treePositions.add(new Point(i, j));
             }
         }
+    }
+
+    public void onFirstClick() {
+        preGame.setVisible(false);
+        countdownLabel.setVisible(true);
+        startCountdown(countdownLabel);
     }
 
     @Override

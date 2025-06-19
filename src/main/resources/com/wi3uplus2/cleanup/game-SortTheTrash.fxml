@@ -13,5 +13,19 @@
             <Font size="42.0" />
          </font>
       </Label>
+      <Pane fx:id="preGame" layoutX="10.0" layoutY="10.0" onMouseClicked="#onFirstClick" opacity="0.44" prefHeight="726.0" prefWidth="1297.0" style="-fx-background-color: #000000;">
+         <children>
+            <Label layoutX="508.0" layoutY="257.0" prefHeight="67.0" prefWidth="281.0" text="Drag &amp; Drop" textFill="WHITE">
+               <font>
+                  <Font name="Comic Sans MS" size="48.0" />
+               </font>
+            </Label>
+            <Label layoutX="328.0" layoutY="324.0" prefHeight="172.0" prefWidth="641.0" text="Letakkan sampah sesuai dengan tempatnya!!" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Comic Sans MS" size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
    </children>
 </Pane>
