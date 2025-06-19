@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #A4D7FF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.SettingController">
+   <children>
+      <Pane layoutX="340.0" layoutY="160.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #F0D6B0; -fx-background-radius: 20;">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="229.0" layoutY="14.0" text="Settings" textAlignment="CENTER">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Label>
+            <Pane layoutX="51.0" layoutY="98.0" prefHeight="234.0" prefWidth="499.0" style="-fx-background-color: #B08059; -fx-background-radius: 20;">
+               <children>
+                  <Slider fx:id="bgmControl" layoutX="197.0" layoutY="14.0" onMouseDragged="#sliderBGM" onMousePressed="#sliderBGM" onMouseReleased="#sliderBGM" prefHeight="100.0" prefWidth="250.0" />
+                  <Slider fx:id="sfxControl" layoutX="197.0" layoutY="114.0" onMouseDragged="#sliderSFX" onMousePressed="#sliderSFX" onMouseReleased="#sliderSFX" prefHeight="100.0" prefWidth="250.0" />
+                  <ImageView fx:id="bgmControlImage" fitHeight="100.0" fitWidth="100.0" layoutX="50.0" layoutY="14.0" onMouseClicked="#sliderBGM" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assets/images/object/organik_apple.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="sfxControlImage" fitHeight="100.0" fitWidth="100.0" layoutX="50.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assets/images/object/anorganik_snackPack.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <ImageView fx:id="exit" fitHeight="96.0" fitWidth="75.0" layoutX="514.0" layoutY="9.0" onMouseClicked="#onClickExit" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/images/object/UI_setting.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</Pane>
