@@ -28,6 +28,31 @@ public class DatabaseHandler {
         return rs.getInt(column);
     }
 
+    public static double getVolume(String option) throws SQLException {
+            String query = "";
+        if (option.equals("bgm")) {
+            query = "SELECT volume_bgm FROM player;";
+        } else if (option.equals("sfx")) {
+            query = "SELECT volume_sfx FROM player;";
+        }
+            var rs = conn.prepareStatement(query).executeQuery();
+            if (rs.next()) {
+                return rs.getDouble(1);
+            } else {
+                throw new SQLException("No data found for the given query.");
+            }
+    }
+
+    public static void setVolume(String option, double volume) throws SQLException {
+        String query = "";
+        if (option.equals("bgm")) {
+            query = "UPDATE player SET volume_bgm = " + volume + ";";
+        } else if (option.equals("sfx")) {
+            query = "UPDATE player SET volume_sfx = " + volume + ";";
+        }
+        InsertData(query);
+    }
+
     public static void insertMinigameSessionData(int minigameID, boolean isSuccessful) throws SQLException {
         String query = "INSERT INTO minigame_session (session_id, minigame_id, is_successful) " +
                 "VALUES ((SELECT MAX(session_id) FROM game_session), " + minigameID + ", " + (isSuccessful ? 1 : 0) + ");";
@@ -78,9 +103,6 @@ public class DatabaseHandler {
         }
     }
 
-    // TODO: ISI ACHIEVEMENTS
-    // TODO: ISI PLAYER ACHIEVEMENTS
     // TODO: MINIGAME DESCRIPTION
 
-    // TODO: BETULIN NAMA TABLE DI DATABASE
 }

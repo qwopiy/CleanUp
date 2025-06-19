@@ -2,12 +2,24 @@ package com.wi3uplus2.cleanup;
 
 import javafx.scene.media.MediaPlayer;
 
+import java.sql.SQLException;
+
 public class AudioController {
     public static MediaPlayer musicPlayer = new MediaPlayer(AssetLoader.bgm);
     public static MediaPlayer boomPlayer = new MediaPlayer(AssetLoader.boom);
 
-    public static double bgmVolume = 0.2; // Default background music volume
-    public static double sfxVolume = 0.2; // Default boom sound effect volume
+    public static double bgmVolume; // Default background music volume
+    public static double sfxVolume; // Default boom sound effect volume
+
+    static {
+        try {
+            bgmVolume = DatabaseHandler.getVolume("bgm");
+            sfxVolume = DatabaseHandler.getVolume("sfx");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public static void startBGM() {
         musicPlayer.seek(musicPlayer.getStartTime());

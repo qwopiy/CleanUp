@@ -22,7 +22,6 @@ import java.util.Random;
 
 public class SortTheTrash extends Game {
 
-    // TODO: logika cuma ada beberapa trash dalam satu game, misalnya 5 trash setelah habis langsung ke transition screen
     @FXML
     private Canvas canvas;
     double canvasX;
@@ -139,7 +138,6 @@ public class SortTheTrash extends Game {
     private void onCountdownEnd() {
         // Switch to transition screen or show game over
         try {
-            lose();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
             Parent root = loader.load();
             TransitionScreenController controller = loader.getController();
