@@ -62,11 +62,6 @@ public class TrashBalancing extends Application {
         ground.setFill(Color.TRANSPARENT);
         root.getChildren().add(ground);
 
-        double tongInnerWidth = tong.getFitWidth() * 0.85;
-        double tongInnerHeight = tong.getFitHeight() * 0.5;
-        double scaleFactor = tong.getFitWidth() / 150.0;
-        Random rand = new Random();
-
         Button restartBtn = new Button("Restart");
         restartBtn.setLayoutX(600);
         restartBtn.setLayoutY(20);
@@ -76,7 +71,7 @@ public class TrashBalancing extends Application {
         Scene scene = new Scene(root, 800, 600);
         stage.setScene(scene);
         stage.setTitle("Trash Balancing");
-        stage.setFullScreen(true);
+        stage.setResizable(true);
         stage.show();
 
         scene.widthProperty().addListener((obs, oldVal, newVal) -> centerTong(scene));
@@ -141,14 +136,12 @@ public class TrashBalancing extends Application {
             sampah.setFitHeight(size);
             sampah.setPreserveRatio(true);
 
-            // Mulai dari atas tong
             sampah.setTranslateX(startX + tong.getFitWidth() / 2 - size / 2);
-            sampah.setTranslateY(startY - 20); // sedikit di atas tong
+            sampah.setTranslateY(startY - 20);
 
-            // Tambahkan ke root (di luar tongGroup)
             ((Pane) tongGroup.getParent()).getChildren().add(sampah);
+            sampahImagesList.add(sampah);
 
-            // Animasi jatuh ke arah tumpah
             TranslateTransition jatuh = new TranslateTransition(Duration.seconds(1.5), sampah);
             jatuh.setByX(arah * (100 + rand.nextDouble() * 200));
             jatuh.setByY(250 + rand.nextDouble() * 50);
@@ -168,8 +161,14 @@ public class TrashBalancing extends Application {
         gameOver = false;
         tongGroup.setRotate(0);
         lastTime = 0;
+
+        Pane root = (Pane) tongGroup.getParent();
+        root.getChildren().removeAll(sampahImagesList);
+        sampahImagesList.clear();
+
         timer.start();
     }
+
 
 
     public static void main(String[] args) {
