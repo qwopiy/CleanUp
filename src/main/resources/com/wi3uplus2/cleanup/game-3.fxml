@@ -1,87 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="720" prefWidth="1280" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.Game3Controller">
+<AnchorPane fx:id="rootPane" prefHeight="720" prefWidth="1280" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.Game3Controller">
 
     <!-- Background Image -->
-    <ImageView fx:id="background" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="false">
+    <ImageView fx:id="background" fitHeight="737.0" fitWidth="1291.0" pickOnBounds="true" preserveRatio="false">
         <image>
-            <Image url="@assets/images/bg/MiniGame_ChaseThatStupidGuy.png" />
+            <Image url="@Asset/Background/Background_Trench.png" />
         </image>
     </ImageView>
-   <StackPane layoutX="553.0" layoutY="65.0" prefHeight="147.0" prefWidth="185.0" style="-fx-border-color: black; -fx-border-radius: 20; -fx-padding: 5; -fx-background-color: transparent;">
-      <children>
-      
-          <!-- Gambar sampah -->
-          <ImageView fx:id="trashImage" fitHeight="160.0" fitWidth="160.0" preserveRatio="true" />
-      </children>
-   </StackPane>
-
-    <!-- Tombol dropdown kanan atas -->
-    <MenuButton fx:id="menuButton" layoutX="1181.0" layoutY="20.0" prefHeight="37.0" prefWidth="69.0" text="☰">
-        <items>
-            <MenuItem fx:id="pauseMenu" text="Pause" />
-            <MenuItem fx:id="replayMenu" text="Replay" />
-            <MenuItem fx:id="exitMenu" text="Keluar" />
-        </items>
-      <font>
-         <Font size="15.0" />
-      </font>
-    </MenuButton>
 
     <!-- Progress Bar -->
-    <ProgressBar fx:id="progressBar" layoutX="391.0" layoutY="275.0" prefHeight="30.0" prefWidth="500.0" progress="0.0" />
+    <ProgressBar fx:id="progressBar" layoutX="390.0" layoutY="34.0" prefHeight="25.0" prefWidth="500.0" progress="0.0" />
 
     <!-- Countdown Label -->
-    <Label fx:id="countdownLabel" alignment="center" layoutX="590.0" layoutY="236.0" prefHeight="100.0" prefWidth="100.0" style="-fx-text-fill: red; -fx-font-weight: bold;" text="">
-        <font>
-            <Font size="48.0" />
-        </font>
+    <Label fx:id="countdownLabel" alignment="center" layoutX="342.0" layoutY="100.0" prefHeight="40.0" prefWidth="597.0" style="-fx-text-fill: #ff0000; -fx-font-weight: bold;">
+        <font><Font size="48.0" /></font>
     </Label>
 
-    <!-- Keterangan -->
-    <Label fx:id="instructionLabel" layoutX="439.0" layoutY="319.0" style="-fx-text-fill: black;" text="Masukkan ke tong sampah yang tepat!">
-        <font>
-            <Font size="24.0" />
-        </font>
+    <!-- Finished Label -->
+    <Label fx:id="finishedLabel" alignment="center" layoutX="534.0" layoutY="100.0" prefHeight="80.0" prefWidth="200.0" style="-fx-font-weight: bold; -fx-font-size: 36px; -fx-text-fill: green;" text="Selesai!" visible="false" />
+
+    <!-- Instruction -->
+    <Label fx:id="instructionLabel" layoutX="368.0" layoutY="67.0" style="-fx-text-fill: black;">
+        <font><Font size="20.0" /></font>
+        <text>Seret sampah ke tong kategori yang benar sebelum terlewat!</text>
     </Label>
 
-    <!-- Skor -->
-    <Label fx:id="scoreLabel" layoutX="50.0" layoutY="20.0" style="-fx-text-fill: green;" text="Skor: 0">
-        <font>
-            <Font size="24.0" />
-        </font>
+    <!-- Score -->
+    <Label fx:id="scoreLabel" layoutX="50.0" layoutY="33.0" style="-fx-text-fill: #ffffff;">
+        <font><Font size="24.0" /></font>
+        <text>Skor: 0</text>
     </Label>
 
-    <!-- Tong sampah organik -->
-    <Button fx:id="btnOrganik" layoutX="239.0" layoutY="400.0" prefHeight="220.0" prefWidth="200.0" text="Tong Sampah\nOrganik" wrapText="true">
-        <font>
-            <Font size="20.0" />
-        </font>
-    </Button>
+    <!-- Dropdown Menu -->
+    <MenuButton fx:id="menuButton" layoutX="1170.0" layoutY="20.0" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #ffffff; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 8;" text="☰" textFill="WHITE">
+        <items>
+            <MenuItem fx:id="pauseMenu" text="⏸ Pause" />
+            <MenuItem fx:id="replayMenu" text="🔄 Replay" />
+            <MenuItem fx:id="exitMenu" text="❌ Keluar" />
+        </items>
+    </MenuButton>
 
-    <!-- Tong sampah anorganik -->
-    <Button fx:id="btnAnorganik" layoutX="540.0" layoutY="400.0" prefHeight="220.0" prefWidth="200.0" text="Tong Sampah\nAnorganik" wrapText="true">
-        <font>
-            <Font size="20.0" />
-        </font>
-    </Button>
+    <!-- Trash Lanes -->
+    <Pane fx:id="lane1" layoutX="-30.0" layoutY="140.0" prefHeight="80.0" prefWidth="1280.0" style="-fx-background-color: transparent;" />
+    <Pane fx:id="lane2" layoutX="11.0" layoutY="237.0" prefHeight="80.0" prefWidth="1280.0" style="-fx-background-color: transparent;" />
+    <Pane fx:id="lane3" layoutX="11.0" layoutY="337.0" prefHeight="80.0" prefWidth="1280.0" style="-fx-background-color: transparent;" />
+    <Pane fx:id="lane4" layoutX="11.0" layoutY="437.0" prefHeight="80.0" prefWidth="1280.0" style="-fx-background-color: transparent;" />
 
-    <!-- Tong sampah B3 -->
-    <Button fx:id="btnB3" layoutX="830.0" layoutY="400.0" prefHeight="220.0" prefWidth="200.0" text="Tong Sampah\nLimbah B3" wrapText="true">
-        <font>
-            <Font size="20.0" />
-        </font>
-    </Button>
+    <!-- Trash Cans -->
+    <HBox alignment="CENTER" layoutX="13.0" layoutY="534.0" prefHeight="188.0" prefWidth="1291.0" spacing="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="534.0">
+        <children>
+            <Button fx:id="btnOrganik" prefHeight="180.0" prefWidth="180.0" style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="180.0" fitWidth="180.0">
+                        <image>
+                            <Image url="@Asset/GameObject/organik_trashCan.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="btnAnorganik" prefHeight="180.0" prefWidth="180.0" style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="180.0" fitWidth="180.0">
+                        <image>
+                            <Image url="@Asset/GameObject/anorganik_trashCan.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="btnB3" prefHeight="180.0" prefWidth="180.0" style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="180.0" fitWidth="180.0">
+                        <image>
+                            <Image url="@Asset/GameObject/B3_trashCan.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </children>
+    </HBox>
 
-</Pane>
+    <!-- Pause Overlay -->
+    <AnchorPane fx:id="pauseOverlay" visible="false" style="-fx-background-color: rgba(0,0,0,0.6);" prefWidth="1280" prefHeight="720">
+        <children>
+            <VBox layoutX="440" layoutY="250" spacing="20" alignment="CENTER"
+                  style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 30; -fx-border-color: #00aaff; -fx-border-width: 3; -fx-border-radius: 20;">
+                <children>
+                    <Label text="⏸ Game Dijeda" style="-fx-font-size: 36px; -fx-text-fill: #0077aa; -fx-font-weight: bold;" />
+                    <Label text="Klik lanjut untuk melanjutkan permainan." style="-fx-font-size: 18px;" />
+                    <Button text="▶ Lanjut" onAction="#resumeGame" style="-fx-font-size: 20px; -fx-background-color: #00aaff; -fx-text-fill: white; -fx-background-radius: 10;" prefWidth="200"/>
+                </children>
+            </VBox>
+        </children>
+    </AnchorPane>
+
+</AnchorPane>
