@@ -87,13 +87,13 @@ public class DatabaseHandler {
     }
 
     public static void insertMinigameSessionData(int minigameID, boolean isSuccessful) throws SQLException {
-        String query = "INSERT INTO MiniGame_Session (session_id, minigame_id, is_successful) " +
-                "VALUES ((SELECT MAX(session_id) FROM Game_Session), " + minigameID + ", " + (isSuccessful ? 1 : 0) + ");";
+        String query = "INSERT INTO minigame_session (session_id, minigame_id, is_successful) " +
+                "VALUES ((SELECT MAX(session_id) FROM game_session), " + minigameID + ", " + (isSuccessful ? 1 : 0) + ");";
         InsertData(query);
     }
 
     public static void initSession() {
-        String query = "INSERT INTO Game_Session (player_id) VALUES (1);";
+        String query = "INSERT INTO game_session (player_id) VALUES (1);";
         try {
             InsertData(query);
         } catch (SQLException e) {
@@ -102,7 +102,7 @@ public class DatabaseHandler {
     }
 
     public static void insertSessionData(int totalScore) throws SQLException {
-        String query = "UPDATE Game_Session SET score = " + totalScore + " WHERE session_id = (SELECT MAX(session_id) FROM GameSession);";
+        String query = "UPDATE game_session SET score = " + totalScore + " WHERE session_id = (SELECT MAX(session_id) FROM game_session);";
         try {
             InsertData(query);
         } catch (SQLException e) {
@@ -112,7 +112,7 @@ public class DatabaseHandler {
 
     // masukkan data player ke tabel Achievement (current_condition_num)
     public static void insertToAchievement(int id, int currentNum) throws SQLException {
-        String query = "UPDATE Achievement SET current_condition = current_condition + " + currentNum + " WHERE achievement_id = " + id + ";";
+        String query = "UPDATE achievement SET current_condition = current_condition + " + currentNum + " WHERE achievement_id = " + id + ";";
         try {
             InsertData(query);
         } catch (SQLException e) {
@@ -123,17 +123,17 @@ public class DatabaseHandler {
     // bandingkan current_condition_num dengan condition yang ditentui di level masing-masing
     public static void checkPlayerAchievements(int id, int current_num, int condition) throws SQLException {
         try {
-            String query = "SELECT achievement_id FROM Player_Achievement WHERE player_id = 1 AND achievement_id = " + id + ";";
+            String query = "SELECT achievement_id FROM player_Achievement WHERE player_id = 1 AND achievement_id = " + id + ";";
             int achievementExists = readDataInt(query, 1);
             if (achievementExists > 0 ) {
                 System.out.println("Achievement already exists for player.");
                 return;
             }
 
-            query = "SELECT current_condition FROM Achievement WHERE achievement_id = " + id + ";";
+            query = "SELECT current_condition FROM achievement WHERE achievement_id = " + id + ";";
             int currentConditionNum = readDataInt(query, 1);
             if (currentConditionNum >= condition) {
-                query = "INSERT INTO Player_Achievement (player_id, achievement_id) " +
+                query = "INSERT INTO player_Achievement (player_id, achievement_id) " +
                         "VALUES (1, " + id + ");";
                 InsertData(query);
             }else{
