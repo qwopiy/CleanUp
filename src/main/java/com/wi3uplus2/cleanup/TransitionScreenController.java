@@ -10,12 +10,7 @@ import javafx.scene.image.ImageView;
 
 public class TransitionScreenController {
 
-    private Parent[] minigames = new Parent[4];
-
-    private ChaseThatStupidGuy chaseThatStupidGuy;
-    private SortTheTrash sortTheTrash;
-    private GrowtheForest growtheForest;
-    private DefendTheGarden defendTheGarden;
+    private Parent[] minigames = new Parent[5];
   
     @FXML
     public Label lives;
@@ -32,7 +27,6 @@ public class TransitionScreenController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game-ChaseThatStupidGuy.fxml"));
             minigames[0] = loader.load();
-            chaseThatStupidGuy = loader.getController();
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
@@ -41,7 +35,6 @@ public class TransitionScreenController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game-SortTheTrash.fxml"));
             minigames[1] = loader.load();
-            sortTheTrash = loader.getController();
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
@@ -50,7 +43,6 @@ public class TransitionScreenController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game-GrowtheForest.fxml"));
             minigames[2] = loader.load();
-            growtheForest = loader.getController();
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
@@ -59,7 +51,14 @@ public class TransitionScreenController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game-DefendTheGarden.fxml"));
             minigames[3] = loader.load();
-            defendTheGarden = loader.getController();
+        } catch (Exception e) {
+            System.out.println("Error loading minigames scene: " + e.getMessage());
+        }
+
+        // Initialize minigame 5
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-TrashInTrench.fxml"));
+            minigames[4] = loader.load();
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
@@ -88,7 +87,7 @@ public class TransitionScreenController {
             try {
                 // Set the new root for the current scene
                 Scene scene = lives.getScene();
-                scene.setRoot(minigames[GameState.nextGame]);
+                scene.setRoot(minigames[4]);
             } catch (Exception e) {
                 System.out.println(e + " " + GameState.nextGame);
             }

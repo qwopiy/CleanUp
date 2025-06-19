@@ -6,7 +6,7 @@ public class GameState {
     public static int currentLives = 3;
     public static int currentScore = 0;
     public static int nextGame = 1;
-    public static String difficulty = "easy";
+    public static String difficulty = "hard";
     public static boolean inGame = false;
 
     public static void endGame() throws SQLException {

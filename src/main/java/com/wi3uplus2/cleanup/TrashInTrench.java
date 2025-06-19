@@ -12,32 +12,50 @@ import javafx.util.Duration;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+
+import java.sql.SQLException;
 import java.util.*;
 
-public class Game3Controller {
+public class TrashInTrench extends Game{
 
     @FXML private AnchorPane rootPane;
     @FXML private ProgressBar progressBar;
     @FXML private Label countdownLabel;
     @FXML private Label scoreLabel;
-    @FXML private MenuButton menuButton;
-    @FXML private MenuItem pauseMenu, replayMenu, exitMenu;
     @FXML private Button btnOrganik, btnAnorganik, btnB3;
     @FXML private Label finishedLabel;
     @FXML private Pane lane1, lane2, lane3, lane4;
-    @FXML private AnchorPane pauseOverlay;
+    @FXML private Pane preGame;
 
     private int score = 0;
     private boolean gameStarted = false;
-    private boolean isPaused = false;
+    private boolean gameEnded = false;
     private Timeline progressTimeline;
     private final Random random = new Random();
     private final Pane[] lanes = new Pane[4];
     private final List<Timeline> trashTimelines = new ArrayList<>();
     private Timeline spawnTimeline;
+    private int moveSpeed = 3;
+    private double spawnInterval = 2.0; // seconds
 
     @FXML
     public void initialize() {
+        gameEnded = false;
+        switch (GameState.difficulty) {
+            case "easy":
+                moveSpeed = 3;
+                spawnInterval = 2.0;
+                break;
+            case "medium":
+                moveSpeed = 4;
+                spawnInterval = 1.5;
+                break;
+            case "hard":
+                moveSpeed = 5;
+                spawnInterval = 1.0;
+                break;
+        }
+
         lanes[0] = lane1;
         lanes[1] = lane2;
         lanes[2] = lane3;
@@ -45,15 +63,17 @@ public class Game3Controller {
 
         updateScoreLabel();
 
-        pauseMenu.setOnAction(e -> pauseGame());
-        replayMenu.setOnAction(e -> restartGame());
-        exitMenu.setOnAction(e -> exitGame());
-
         setupDropHandlers();
 
         disableButtons(true);
-        startCountdown();
         finishedLabel.setVisible(false);
+    }
+
+    public void onFirstClick() {
+        preGame.setVisible(false);
+        countdownLabel.setVisible(true);
+        startCountdown(countdownLabel);
+        startGame();
     }
 
     private void setupDropHandlers() {
@@ -90,21 +110,6 @@ public class Game3Controller {
         });
     }
 
-    public void startCountdown() {
-        countdownLabel.setText("3");
-
-        Timeline countdown = new Timeline(
-                new KeyFrame(Duration.seconds(1), e -> countdownLabel.setText("2")),
-                new KeyFrame(Duration.seconds(2), e -> countdownLabel.setText("1")),
-                new KeyFrame(Duration.seconds(3), e -> countdownLabel.setText("Mulai!")),
-                new KeyFrame(Duration.seconds(4), e -> {
-                    countdownLabel.setText("");
-                    startGame();
-                })
-        );
-        countdown.play();
-    }
-
     private void startGame() {
         gameStarted = true;
         score = 0;
@@ -116,12 +121,13 @@ public class Game3Controller {
     }
 
     private void startSpawningTrash() {
-        spawnTimeline = new Timeline(new KeyFrame(Duration.seconds(2), e -> spawnTrash()));
+        spawnTimeline = new Timeline(new KeyFrame(Duration.seconds(spawnInterval), e -> spawnTrash()));
         spawnTimeline.setCycleCount(Timeline.INDEFINITE);
         spawnTimeline.play();
 
+        // win condition
         progressTimeline.setOnFinished(ev -> {
-            spawnTimeline.stop();
+            win();
             endLevel();
         });
     }
@@ -150,12 +156,16 @@ public class Game3Controller {
 
         lane.getChildren().add(trash);
 
-        Timeline move = new Timeline(new KeyFrame(Duration.millis(30), ev -> {
-            if (!isPaused && "alive".equals(trash.getUserData())) {
-                trash.setLayoutX(trash.getLayoutX() + 2);
+        Timeline move = new Timeline();
+        move.getKeyFrames().add(new KeyFrame(Duration.millis(30), ev -> {
+            if ("alive".equals(trash.getUserData())) {
+                trash.setLayoutX(trash.getLayoutX() + moveSpeed);
                 if (trash.getLayoutX() > rootPane.getWidth()) {
                     lane.getChildren().remove(trash);
+                    move.stop();
                     endLevelWithMiss();
+                    gameEnded = true;
+                    lose();
                 }
             }
         }));
@@ -191,28 +201,18 @@ public class Game3Controller {
 
         progressBar.setProgress(0.0);
         KeyValue keyValue = new KeyValue(progressBar.progressProperty(), 1.0);
-        KeyFrame keyFrame = new KeyFrame(Duration.seconds(60), keyValue);
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(10), keyValue);
 
         progressTimeline = new Timeline(keyFrame);
         progressTimeline.play();
     }
 
     private void endLevel() {
+        spawnTimeline.stop();
         disableButtons(true);
         gameStarted = false;
         finishedLabel.setVisible(true);
         clearAllTrash();
-
-        Timeline hideLabel = new Timeline(new KeyFrame(Duration.seconds(5), e -> finishedLabel.setVisible(false)));
-        hideLabel.play();
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Waktu Habis");
-        alert.setHeaderText(null);
-        alert.setContentText("Waktu habis!\nSkor akhir kamu: " + score);
-        alert.showAndWait();
-
-        restartGame();
     }
 
     private void endLevelWithMiss() {
@@ -222,48 +222,7 @@ public class Game3Controller {
             clearAllTrash();
             spawnTimeline.stop();
             if (progressTimeline != null) progressTimeline.stop();
-
-            countdownLabel.setText("Game Over");
-            countdownLabel.setVisible(true);
-
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Game Over");
-            alert.setHeaderText(null);
-            alert.setContentText("Sampah terlewat!\nSkor akhir kamu: " + score);
-            alert.showAndWait();
-
-            restartGame();
         }
-    }
-
-    private void pauseGame() {
-        isPaused = true;
-        if (progressTimeline != null) progressTimeline.pause();
-        if (spawnTimeline != null) spawnTimeline.pause();
-        trashTimelines.forEach(Timeline::pause);
-
-        pauseOverlay.setVisible(true); // tampilkan overlay custom
-    }
-
-    @FXML
-    private void resumeGame() {
-        pauseOverlay.setVisible(false);
-        isPaused = false;
-        if (progressTimeline != null) progressTimeline.play();
-        if (spawnTimeline != null) spawnTimeline.play();
-        trashTimelines.forEach(Timeline::play);
-    }
-
-    private void restartGame() {
-        if (progressTimeline != null) progressTimeline.stop();
-        if (spawnTimeline != null) spawnTimeline.stop();
-        trashTimelines.forEach(Timeline::stop);
-        trashTimelines.clear();
-        clearAllTrash();
-        score = 0;
-        updateScoreLabel();
-        countdownLabel.setText("");
-        startCountdown();
     }
 
     private void clearAllTrash() {
@@ -272,21 +231,35 @@ public class Game3Controller {
         }
     }
 
-    private void exitGame() {
-        try {
-            if (progressTimeline != null) progressTimeline.stop();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("main-menu.fxml"));
-            Parent root = loader.load();
-            Scene scene = menuButton.getScene();
-            scene.setRoot(root);
-        } catch (Exception e) {
-            System.out.println("Gagal keluar ke menu utama: " + e.getMessage());
-        }
-    }
-
     private void disableButtons(boolean disable) {
         btnOrganik.setDisable(disable);
         btnAnorganik.setDisable(disable);
         btnB3.setDisable(disable);
+    }
+
+    @Override
+    void win() {
+        try {
+            DatabaseHandler.insertMinigameSessionData(5, true);
+            GameState.currentScore += score; // Tambahkan skor ke total skor
+        } catch (SQLException e) {
+            System.err.println("Error inserting minigame session data: " + e.getMessage());
+        }
+
+    }
+
+    @Override
+    void lose() {
+        if (!gameStarted && gameEnded) {
+            return;
+        }
+        System.out.println("minus 1");
+        try {
+            DatabaseHandler.insertMinigameSessionData(5, false);
+            GameState.currentLives--; // Kurangi nyawa pemain
+            GameState.currentScore += score; // Tambahkan skor ke total skor
+        } catch (SQLException e) {
+            System.err.println("Error inserting minigame session data: " + e.getMessage());
+        }
     }
 }
