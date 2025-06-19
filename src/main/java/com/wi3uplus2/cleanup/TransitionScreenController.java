@@ -66,8 +66,8 @@ public class TransitionScreenController {
     @FXML
     protected void onButtonClick(javafx.scene.input.MouseEvent event) {
         AudioController.click();
-        System.out.println(GameState.nextGame);
-        if (GameState.nextGame < 3) {
+//        System.out.println(GameState.nextGame);
+        if (GameState.nextGame < minigames.length) {
             GameState.nextGame++;
         } else {
             GameState.nextGame = 0;
@@ -76,21 +76,9 @@ public class TransitionScreenController {
             try {
                 // Set the new root for the current scene
                 Scene scene = lives.getScene();
-                switch (GameState.nextGame) {
-                    case 0:
-//                        chaseThatStupidGuy.startCountdown(chaseThatStupidGuy.countdownLabel);
-                        break;
-                    case 1:
-//                        sortTheTrash.startCountdown();
-                        break;
-                    case 2:
-//                        growtheForest.startCountdown(growtheForest.countdownLabel);
-                        break;
-                }
-
-                scene.setRoot(minigames[2]);
+                scene.setRoot(minigames[GameState.nextGame]);
             } catch (Exception e) {
-                System.out.println(e);
+                System.out.println(e + " " + GameState.nextGame);
             }
         } else {
             try {
@@ -102,7 +90,7 @@ public class TransitionScreenController {
                 Scene scene = ((Node) event.getSource()).getScene();
                 scene.setRoot(root);
             } catch (Exception e) {
-                System.out.println(e);
+                System.out.println(e + " " + "mainmenu");
            }
         }
     }

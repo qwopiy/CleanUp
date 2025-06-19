@@ -96,7 +96,7 @@ public class CleanUpController {
     public void onAchievementButtonClick(javafx.scene.input.MouseEvent event) {
         try {
             AudioController.click();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("achievement.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AchievementScreen.fxml"));
             Parent root = loader.load();
             Scene scene = ((Node) event.getSource()).getScene();
             scene.setRoot(root);

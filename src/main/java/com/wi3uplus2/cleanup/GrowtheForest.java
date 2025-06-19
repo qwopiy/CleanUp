@@ -35,13 +35,17 @@ public class GrowtheForest extends Game {
 
     private int seconds = 8;
     private int spawnRate = 8; // Number of trees to spawn per click
+    private int treesGrown = 0;
+
+    private int id_minigame = 2;
+    private int id_achievement_ForestSavior = 2;
 
 
     @FXML
     public void initialize() {
-        if (GameState.currentScore >= 0) {
+        if (GameState.currentScore >= 500) {
             difficulty = "hard";
-        } else if (GameState.currentScore > 50) {
+        } else if (GameState.currentScore > 300) {
             difficulty = "medium";
         }
 
@@ -102,11 +106,12 @@ public class GrowtheForest extends Game {
             int row = chosenCell.y;
 
             ImageView tree = new ImageView(treeTemplate.getImage());
-            tree.setFitWidth(200);
-            tree.setFitHeight(150);
+            tree.setFitWidth(360);
+            tree.setFitHeight(180);
             tree.setPreserveRatio(true);
 
             forestGrid.add(tree, col, row);
+            treesGrown++;
         }
     }
 
@@ -131,13 +136,15 @@ public class GrowtheForest extends Game {
 
     @Override
     void win() throws SQLException {
-        GameState.currentScore += 10;
-        DatabaseHandler.insertMinigameSessionData(1, true);
+        GameState.currentScore += 50;
+        DatabaseHandler.checkPlayerAchievements(id_achievement_ForestSavior, treesGrown, 1000);
+        DatabaseHandler.insertMinigameSessionData(id_minigame, true);
     }
 
     @Override
     void lose() throws SQLException {
         GameState.currentLives--;
-        DatabaseHandler.insertMinigameSessionData(1, false);
+        DatabaseHandler.checkPlayerAchievements(id_achievement_ForestSavior, treesGrown, 1000);
+        DatabaseHandler.insertMinigameSessionData(id_minigame, false);
     }
 }
