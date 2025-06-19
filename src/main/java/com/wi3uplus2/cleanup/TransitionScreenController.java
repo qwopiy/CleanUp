@@ -9,9 +9,11 @@ import javafx.scene.control.Label;
 
 public class TransitionScreenController {
 
-    private Parent[] minigames = new Parent[2];
+    private Parent[] minigames = new Parent[3];
     private Game1Controller game1Controller;
     private Game2Controller game2Controller;
+    private Game3Controller game3Controller;
+
     @FXML
     public Label lives;
     @FXML
@@ -36,7 +38,18 @@ public class TransitionScreenController {
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
+
+        // initialize minigame 3
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game-3.fxml"));
+            minigames[2] = loader.load();
+            game3Controller = loader.getController();
+        } catch (Exception e) {
+            System.out.println("Error loading game-3.fxml: " + e.getMessage());
+        }
+
     }
+
 
     @FXML
     public void show() {
@@ -67,6 +80,9 @@ public class TransitionScreenController {
                         break;
                     case 1:
                         game2Controller.startCountdown();
+                        break;
+                    case 2:
+                        game3Controller.startCountdown();
                         break;
                 }
 
