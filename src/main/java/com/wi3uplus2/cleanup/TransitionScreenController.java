@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 
 public class TransitionScreenController {
 
@@ -16,6 +17,10 @@ public class TransitionScreenController {
     public Label lives;
     @FXML
     public Label score;
+    @FXML
+    public ImageView nextGameButton;
+    @FXML
+    public Label nextGameLabel;
 
     @FXML
     public void initialize() {
@@ -49,7 +54,7 @@ public class TransitionScreenController {
     }
 
     @FXML
-    protected void onButtonClick(javafx.event.ActionEvent event) {
+    protected void onButtonClick(javafx.scene.input.MouseEvent event) {
         // Randomly pick the next game to play
         System.out.println(GameState.nextGame);
         if (GameState.nextGame == 0) {
@@ -88,6 +93,27 @@ public class TransitionScreenController {
            }
         }
     }
+
+    public void onButtonHover() {
+        nextGameButton.setX(nextGameButton.getX() - 10);
+        nextGameButton.setY(nextGameButton.getY() - 10);
+
+        nextGameButton.setFitWidth(nextGameButton.getFitWidth() + 20);
+        nextGameButton.setFitHeight(nextGameButton.getFitHeight() + 20);
+
+        nextGameLabel.setLayoutX(nextGameLabel.getLayoutX() + 10);
+    }
+
+    public void onButtonExit() {
+        nextGameButton.setX(nextGameButton.getX() + 10);
+        nextGameButton.setY(nextGameButton.getY() + 10);
+
+        nextGameButton.setFitWidth(nextGameButton.getFitWidth() - 20);
+        nextGameButton.setFitHeight(nextGameButton.getFitHeight() - 20);
+
+        nextGameLabel.setLayoutX(nextGameLabel.getLayoutX() - 10);
+    }
+
 
     protected void pickNextGame() {
         if ((int)(Math.random() * 2 ) != GameState.nextGame) {

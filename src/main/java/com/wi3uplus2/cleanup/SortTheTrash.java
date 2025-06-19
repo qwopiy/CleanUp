@@ -212,9 +212,9 @@ public class SortTheTrash extends Game {
 
                 if (isTrashIntersectingBin(currentTrash, bin)) {
                     if (type.equals(currentTrash.type)) {
-                        score += 10;
+                        score += 5;
                     } else {
-                        score -= 5;
+                        score -= 10;
                     }
                     currentTrashCount++;
                     newTrash();

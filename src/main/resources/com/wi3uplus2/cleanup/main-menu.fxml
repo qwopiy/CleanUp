@@ -29,7 +29,7 @@
             <Image url="@assets/images/object/UI_Button_up.png" />
          </image>
       </ImageView>
-      <Label fx:id="play" layoutX="931.0" layoutY="509.0" onMouseClicked="#onStartButtonClick" onMouseEntered="#onStartButtonHover" onMouseExited="#onStartButtonExit" prefHeight="91.0" prefWidth="127.0" text="Play" textFill="#ef9457">
+      <Label fx:id="play" layoutX="919.0" layoutY="511.0" onMouseClicked="#onStartButtonClick" onMouseEntered="#onStartButtonHover" onMouseExited="#onStartButtonExit" prefHeight="91.0" prefWidth="151.0" text="Main" textFill="#ef9457">
          <font>
             <Font name="Comic Sans MS" size="64.0" />
          </font>
