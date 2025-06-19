@@ -9,9 +9,10 @@ import javafx.scene.control.Label;
 
 public class TransitionScreenController {
 
-    private Parent[] minigames = new Parent[2];
+    private Parent[] minigames = new Parent[3];
     private Game1Controller game1Controller;
     private Game2Controller game2Controller;
+    private DefendTheGarden_Controller defendTheGarden_Controller;
     @FXML
     public Label lives;
     @FXML
@@ -33,6 +34,15 @@ public class TransitionScreenController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game-2.fxml"));
             minigames[1] = loader.load();
             game2Controller = loader.getController();
+        } catch (Exception e) {
+            System.out.println("Error loading minigames scene: " + e.getMessage());
+        }
+
+        //initialize minigame 3
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("DefendTheGarden.fxml"));
+            minigames[2] = loader.load();
+            defendTheGarden_Controller = loader.getController();
         } catch (Exception e) {
             System.out.println("Error loading minigames scene: " + e.getMessage());
         }
@@ -70,7 +80,7 @@ public class TransitionScreenController {
                         break;
                 }
 
-                scene.setRoot(minigames[GameState.nextGame]);
+                scene.setRoot(minigames[2]);
             } catch (Exception e) {
                 System.out.println(e);
             }
