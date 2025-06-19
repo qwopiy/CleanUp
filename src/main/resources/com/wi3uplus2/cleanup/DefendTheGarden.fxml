@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="gamePane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.DefendTheGarden_Controller">
+    <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@assets/images/bg/Background_DefendtheGarden.png" />
+        </image></ImageView>
+    <ImageView fx:id="plantImage" fitHeight="304.0" fitWidth="214.0" layoutX="507.0" layoutY="174.0">
+        <image>
+            <Image url="@assets/images/character/Character_MsFlower.png" />
+        </image>
+    </ImageView>
+    <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="416.0" layoutY="479.0" prefHeight="70.0" prefWidth="412.0" style="-fx-font-size: 40px;" text="Keep your plant safe!" textAlignment="JUSTIFY" textFill="#dc0f0f">
+        <font>
+            <Font size="36.0" />
+        </font></Label>
+    <ImageView fx:id="kumbang" fitHeight="68.0" fitWidth="111.0" layoutX="85.0" layoutY="-170.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@assets/images/character/Character_FreakyBug.png" />
+        </image>
+    </ImageView>
+</AnchorPane>
