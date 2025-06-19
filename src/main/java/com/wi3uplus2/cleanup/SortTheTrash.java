@@ -267,7 +267,7 @@ public class SortTheTrash extends Game {
     }
 
     // Kelas helper AnimationTimer dengan FPS fix
-    class AnimationTimerExt extends javafx.animation.AnimationTimer {
+    class AnimationTimerExt extends AnimationTimer {
         private long interval;
         private long last = 0;
         private Runnable onTick;
