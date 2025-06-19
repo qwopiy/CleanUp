@@ -3,6 +3,8 @@ package com.wi3uplus2.cleanup;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHandler {
 
@@ -23,19 +25,75 @@ public class DatabaseHandler {
         conn.prepareStatement(query).executeUpdate();
     }
 
+    public static double getVolume(String option) throws SQLException {
+        String query = "";
+        if (option.equals("bgm")) {
+            query = "SELECT volume_bgm FROM player;";
+        } else if (option.equals("sfx")) {
+            query = "SELECT volume_sfx FROM player;";
+        }
+        var rs = conn.prepareStatement(query).executeQuery();
+        if (rs.next()) {
+            return rs.getDouble(1);
+        } else {
+            throw new SQLException("No data found for the given query.");
+        }
+    }
+
+    public static void setVolume(String option, double volume) throws SQLException {
+        String query = "";
+        if (option.equals("bgm")) {
+            query = "UPDATE player SET volume_bgm = " + volume + ";";
+        } else if (option.equals("sfx")) {
+            query = "UPDATE player SET volume_sfx = " + volume + ";";
+        }
+        InsertData(query);
+    }
+
     public static int readDataInt(String query, int column) throws SQLException {
         var rs = conn.prepareStatement(query).executeQuery();
         return rs.getInt(column);
     }
 
+    public static int GetHighScore() {
+        String query = "SELECT high_score FROM player;";
+        try {
+            return readDataInt(query, 1);
+        } catch (SQLException e) {
+            System.err.println("Error saat mengambil high score: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    public static List<PlayerAchievementElement> getAllPlayerAchievement() {
+        List<PlayerAchievementElement> playerAchievement = new ArrayList<>();
+        String query = "SELECT a.achievement_id, a.name, pa.unlocked_at " +
+                "FROM achievement a " +
+                "LEFT JOIN player_achievement pa ON a.achievement_id = pa.achievement_id " +
+                "ORDER BY a.achievement_id ASC";
+        try{;
+            var rs = conn.prepareStatement(query).executeQuery();
+            while (rs.next()) {
+                int achievementId = rs.getInt("achievement_id");
+                String name = rs.getString("name");
+                String unlockedAt = rs.getString("unlocked_at") == null ? "null" : rs.getString("unlocked_at");;
+
+                playerAchievement.add(new PlayerAchievementElement(achievementId, name, unlockedAt));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error saat mengambil semua produk: " + e.getMessage());
+        }
+        return playerAchievement;
+    }
+
     public static void insertMinigameSessionData(int minigameID, boolean isSuccessful) throws SQLException {
-        String query = "INSERT INTO MiniGameSession (session_id, minigame_id, is_successful) " +
-                "VALUES ((SELECT MAX(session_id) FROM GameSessions), " + minigameID + ", " + (isSuccessful ? 1 : 0) + ");";
+        String query = "INSERT INTO MiniGame_Session (session_id, minigame_id, is_successful) " +
+                "VALUES ((SELECT MAX(session_id) FROM Game_Session), " + minigameID + ", " + (isSuccessful ? 1 : 0) + ");";
         InsertData(query);
     }
 
     public static void initSession() {
-        String query = "INSERT INTO GameSessions (player_id) VALUES (1);";
+        String query = "INSERT INTO Game_Session (player_id) VALUES (1);";
         try {
             InsertData(query);
         } catch (SQLException e) {
@@ -44,7 +102,7 @@ public class DatabaseHandler {
     }
 
     public static void insertSessionData(int totalScore) throws SQLException {
-        String query = "INSERT INTO GameSessions (player_id, score) VALUES (1, " + totalScore + ");";
+        String query = "UPDATE Game_Session SET score = " + totalScore + " WHERE session_id = (SELECT MAX(session_id) FROM GameSession);";
         try {
             InsertData(query);
         } catch (SQLException e) {
@@ -54,7 +112,7 @@ public class DatabaseHandler {
 
     // masukkan data player ke tabel Achievement (current_condition_num)
     public static void insertToAchievement(int id, int currentNum) throws SQLException {
-        String query = "UPDATE Achievement SET current_condition_num = current_condition_num + " + currentNum + " WHERE achievement_id = " + id + ";";
+        String query = "UPDATE Achievement SET current_condition = current_condition + " + currentNum + " WHERE achievement_id = " + id + ";";
         try {
             InsertData(query);
         } catch (SQLException e) {
@@ -63,15 +121,23 @@ public class DatabaseHandler {
     }
 
     // bandingkan current_condition_num dengan condition yang ditentui di level masing-masing
-    public static void checkPlayerAchievements(int id, int condition) throws SQLException {
+    public static void checkPlayerAchievements(int id, int current_num, int condition) throws SQLException {
         try {
-            String query = "SELECT current_condition_num FROM Achievement WHERE achievement_id = " + id + ";";
-            int currentConditionNum = readDataInt(query, 1);
+            String query = "SELECT achievement_id FROM Player_Achievement WHERE player_id = 1 AND achievement_id = " + id + ";";
+            int achievementExists = readDataInt(query, 1);
+            if (achievementExists > 0 ) {
+                System.out.println("Achievement already exists for player.");
+                return;
+            }
 
+            query = "SELECT current_condition FROM Achievement WHERE achievement_id = " + id + ";";
+            int currentConditionNum = readDataInt(query, 1);
             if (currentConditionNum >= condition) {
-                String insertToPlayerAchievement = "INSERT INTO PlayerAchievements (player_id, achievement_id) " +
+                query = "INSERT INTO Player_Achievement (player_id, achievement_id) " +
                         "VALUES (1, " + id + ");";
-                InsertData(insertToPlayerAchievement);
+                InsertData(query);
+            }else{
+                insertToAchievement(id, current_num);
             }
         } catch (SQLException e) {
             System.out.println(e);
