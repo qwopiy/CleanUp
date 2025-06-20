@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -16,7 +15,7 @@ import javafx.scene.Scene;
 import java.sql.SQLException;
 import java.util.*;
 
-public class TrashInTrench extends Game{
+public class TrashInTrench extends Game {
 
     @FXML private AnchorPane rootPane;
     @FXML private ProgressBar progressBar;
@@ -26,6 +25,7 @@ public class TrashInTrench extends Game{
     @FXML private Label finishedLabel;
     @FXML private Pane lane1, lane2, lane3, lane4;
     @FXML private Pane preGame;
+    @FXML private Pane limitLine;
 
     private int score = 0;
     private boolean gameStarted = false;
@@ -36,24 +36,16 @@ public class TrashInTrench extends Game{
     private final List<Timeline> trashTimelines = new ArrayList<>();
     private Timeline spawnTimeline;
     private int moveSpeed = 3;
-    private double spawnInterval = 2.0; // seconds
+    private double spawnInterval = 2.0;
+    private int nextLaneIndex = 0;
 
     @FXML
     public void initialize() {
         gameEnded = false;
         switch (GameState.difficulty) {
-            case "easy":
-                moveSpeed = 3;
-                spawnInterval = 2.0;
-                break;
-            case "medium":
-                moveSpeed = 4;
-                spawnInterval = 1.5;
-                break;
-            case "hard":
-                moveSpeed = 5;
-                spawnInterval = 1.0;
-                break;
+            case "easy": moveSpeed = 3; spawnInterval = 2.0; break;
+            case "medium": moveSpeed = 4; spawnInterval = 1.5; break;
+            case "hard": moveSpeed = 5; spawnInterval = 1.0; break;
         }
 
         lanes[0] = lane1;
@@ -63,7 +55,9 @@ public class TrashInTrench extends Game{
 
         updateScoreLabel();
 
-        setupDropHandlers();
+        btnOrganik.setOnAction(e -> handleButtonPress("organik"));
+        btnAnorganik.setOnAction(e -> handleButtonPress("anorganik"));
+        btnB3.setOnAction(e -> handleButtonPress("B3"));
 
         disableButtons(true);
         finishedLabel.setVisible(false);
@@ -76,43 +70,26 @@ public class TrashInTrench extends Game{
         startGame();
     }
 
-    private void setupDropHandlers() {
-        setupDropHandler(btnOrganik, "organik");
-        setupDropHandler(btnAnorganik, "anorganik");
-        setupDropHandler(btnB3, "B3");
-    }
-
-    private void setupDropHandler(Button btn, String typePrefix) {
-        btn.setOnDragOver(event -> {
-            if (event.getGestureSource() != btn && event.getDragboard().hasString()) {
-                event.acceptTransferModes(TransferMode.MOVE);
-            }
-            event.consume();
-        });
-
-        btn.setOnDragDropped(event -> {
-            Dragboard db = event.getDragboard();
-            boolean success = false;
-            if (db.hasString()) {
-                if (db.getString().startsWith(typePrefix)) {
+    private void handleButtonPress(String type) {
+        for (Pane lane : lanes) {
+            if (!lane.getChildren().isEmpty()) {
+                ImageView trash = (ImageView) lane.getChildren().get(0);
+                if (!"ready".equals(trash.getUserData())) continue; // Belum bisa ditekan
+                String name = (String) trash.getId();
+                if (name.startsWith(type)) {
                     score += 10;
                 } else {
                     score -= 5;
                 }
                 updateScoreLabel();
-                ImageView draggedTrash = (ImageView) event.getGestureSource();
-                ((Pane) draggedTrash.getParent()).getChildren().remove(draggedTrash);
-                draggedTrash.setUserData("handled");
-                success = true;
+                lane.getChildren().remove(trash);
+                return;
             }
-            event.setDropCompleted(success);
-            event.consume();
-        });
+        }
     }
 
     @Override
     public void onCountdownEnd(Label label) {
-        // Switch to transition screen or show game over
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
             Parent root = loader.load();
@@ -140,17 +117,12 @@ public class TrashInTrench extends Game{
         spawnTimeline.setCycleCount(Timeline.INDEFINITE);
         spawnTimeline.play();
 
-        // win condition
         progressTimeline.setOnFinished(ev -> {
-            if (spawnTimeline != null) spawnTimeline.stop();
-            if (progressTimeline != null) progressTimeline.stop();
-            for (Timeline t : trashTimelines) t.stop();
-
+            stopAll();
             if (score <= 0) {
                 AudioController.lose();
                 lose();
-            }
-            else {
+            } else {
                 AudioController.win();
                 win();
             }
@@ -159,8 +131,8 @@ public class TrashInTrench extends Game{
     }
 
     private void spawnTrash() {
-        int laneIndex = random.nextInt(4);
-        Pane lane = lanes[laneIndex];
+        Pane lane = lanes[nextLaneIndex];
+        nextLaneIndex = (nextLaneIndex + 1) % 4;
 
         String[] trashTypes = {
                 "anorganik_plasticBag", "anorganik_plasticBottle", "anorganik_snackPack", "anorganik_sodaCan",
@@ -169,56 +141,36 @@ public class TrashInTrench extends Game{
         };
         String name = trashTypes[random.nextInt(trashTypes.length)];
 
-        Image trashImage = new Image(getClass().getResourceAsStream(
-                "/com/wi3uplus2/cleanup/assets/images/object/" + name + ".png"
-        ));
-
-        ImageView trash = new ImageView(trashImage);
+        ImageView trash = new ImageView(new Image(getClass().getResourceAsStream(
+                "/com/wi3uplus2/cleanup/assets/images/object/" + name + ".png")));
         trash.setFitWidth(80);
         trash.setFitHeight(80);
         trash.setLayoutX(0);
         trash.setLayoutY(10);
-        trash.setUserData("alive");
+        trash.setId(name);
+        trash.setUserData("waiting"); // Belum bisa diproses
 
         lane.getChildren().add(trash);
 
+        // Atur agar bisa diproses setelah 1 detik
+        Timeline enable = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+            trash.setUserData("ready");
+        }));
+        enable.play();
+
         Timeline move = new Timeline();
         move.getKeyFrames().add(new KeyFrame(Duration.millis(30), ev -> {
-            if ("alive".equals(trash.getUserData())) {
-                trash.setLayoutX(trash.getLayoutX() + moveSpeed);
-                if (trash.getLayoutX() > rootPane.getWidth()) {
-                    lane.getChildren().remove(trash);
-                    move.stop();
-                    endLevelWithMiss();
-                    gameEnded = true;
-                }
+            trash.setLayoutX(trash.getLayoutX() + moveSpeed);
+            if (trash.getBoundsInParent().intersects(limitLine.getBoundsInParent())) {
+                lane.getChildren().remove(trash);
+                move.stop();
+                endLevelWithMiss();
+                gameEnded = true;
             }
         }));
         move.setCycleCount(Animation.INDEFINITE);
         move.play();
         trashTimelines.add(move);
-
-//        trash.setOnDragDetected(e -> {
-//            if (!"handled".equals(trash.getUserData())) {
-//                Dragboard db = trash.startDragAndDrop(TransferMode.MOVE);
-//                ClipboardContent content = new ClipboardContent();
-//                content.putString(name);
-//                db.setContent(content);
-//                e.consume();
-//            }
-//        });
-//
-//        trash.setOnMouseDragged(event -> {
-//            if (!"handled".equals(trash.getUserData())) {
-//                trash.setLayoutX(event.getSceneX() - 40);
-//                trash.setLayoutY(event.getSceneY() - 40);
-//                event.consume();
-//            }
-//        });
-
-        trash.setOnMouseClicked(e -> {
-
-        });
     }
 
     private void updateScoreLabel() {
@@ -227,17 +179,40 @@ public class TrashInTrench extends Game{
 
     private void setupProgressBar() {
         if (progressTimeline != null) progressTimeline.stop();
-
         progressBar.setProgress(0.0);
-        KeyValue keyValue = new KeyValue(progressBar.progressProperty(), 1.0);
-        KeyFrame keyFrame = new KeyFrame(Duration.seconds(10), keyValue);
 
-        progressTimeline = new Timeline(keyFrame);
+        final Integer[] timeLeft = {10};
+        countdownLabel.setText("Waktu: 10");
+
+        Timeline labelTimer = new Timeline(new KeyFrame(Duration.seconds(1), ev -> {
+            timeLeft[0]--;
+            countdownLabel.setText("Waktu: " + timeLeft[0]);
+        }));
+        labelTimer.setCycleCount(10);
+        labelTimer.play();
+
+        progressTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(10), new KeyValue(progressBar.progressProperty(), 1.0))
+        );
+
+        progressTimeline.setOnFinished(ev -> {
+            stopAll();
+            labelTimer.stop();
+            if (score <= 0) {
+                AudioController.lose();
+                lose();
+            } else {
+                AudioController.win();
+                win();
+            }
+            endLevel();
+        });
+
         progressTimeline.play();
     }
 
     private void endLevel() {
-        spawnTimeline.stop();
+        stopAll();
         disableButtons(true);
         gameStarted = false;
         finishedLabel.setVisible(true);
@@ -245,15 +220,18 @@ public class TrashInTrench extends Game{
     }
 
     private void endLevelWithMiss() {
-        if (gameEnded) return; // Prevent multiple triggers
+        if (gameEnded) return;
         gameEnded = true;
-        if (gameStarted) {
-            disableButtons(true);
-            gameStarted = false;
-            clearAllTrash();
-            spawnTimeline.stop();
-            if (progressTimeline != null) progressTimeline.stop();
-        }
+        stopAll();
+        disableButtons(true);
+        gameStarted = false;
+        clearAllTrash();
+    }
+
+    private void stopAll() {
+        if (spawnTimeline != null) spawnTimeline.stop();
+        if (progressTimeline != null) progressTimeline.stop();
+        for (Timeline t : trashTimelines) t.stop();
     }
 
     private void clearAllTrash() {
@@ -272,22 +250,20 @@ public class TrashInTrench extends Game{
     void win() {
         try {
             DatabaseHandler.insertMinigameSessionData(5, true);
-            GameState.currentScore += score; // Tambahkan skor ke total skor
+            GameState.currentScore += score;
         } catch (SQLException e) {
             System.err.println("Error inserting minigame session data: " + e.getMessage());
         }
-
     }
 
     @Override
     void lose() {
-        if (gameEnded) return; // Prevent multiple triggers
+        if (gameEnded) return;
         gameEnded = true;
         try {
-            System.out.println("currentLives: " + GameState.currentLives);
             DatabaseHandler.insertMinigameSessionData(5, false);
-            GameState.currentLives--; // Kurangi nyawa pemain
-            GameState.currentScore += score; // Tambahkan skor ke total skor
+            GameState.currentLives--;
+            GameState.currentScore += score;
         } catch (SQLException e) {
             System.err.println("Error inserting minigame session data: " + e.getMessage());
         }
