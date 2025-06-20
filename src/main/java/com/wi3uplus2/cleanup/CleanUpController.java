@@ -19,6 +19,8 @@ public class CleanUpController {
     public ImageView settingButton;
     @FXML
     public ImageView achievementButton;
+    @FXML
+    public ImageView encyclopediaButton;
 
     @FXML
     public void onStartButtonClick(javafx.scene.input.MouseEvent event) {
@@ -119,5 +121,33 @@ public class CleanUpController {
 
         achievementButton.setX(achievementButton.getX() + 10);
         achievementButton.setY(achievementButton.getY() + 10);
+    }
+
+    public void onEncyclopediaButtonClick(javafx.scene.input.MouseEvent event) {
+        try {
+            AudioController.click();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Encyclopedia.fxml"));
+            Parent root = loader.load();
+            Scene scene = ((Node) event.getSource()).getScene();
+            scene.setRoot(root);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void onEncyclopediaButtonHover() {
+        encyclopediaButton.setFitWidth(encyclopediaButton.getFitWidth() + 20);
+        encyclopediaButton.setFitHeight(encyclopediaButton.getFitHeight() + 20);
+
+        encyclopediaButton.setX(encyclopediaButton.getX() - 10);
+        encyclopediaButton.setY(encyclopediaButton.getY() - 10);
+    }
+
+    public void onEncyclopediaButtonExit() {
+        encyclopediaButton.setFitWidth(encyclopediaButton.getFitWidth() - 20);
+        encyclopediaButton.setFitHeight(encyclopediaButton.getFitHeight() - 20);
+
+        encyclopediaButton.setX(encyclopediaButton.getX() + 10);
+        encyclopediaButton.setY(encyclopediaButton.getY() + 10);
     }
 }

@@ -42,7 +42,7 @@
             <Image url="@assets/images/object/UI_trophy.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="158.0" fitWidth="160.0" layoutX="916.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="encyclopediaButton" fitHeight="158.0" fitWidth="160.0" layoutX="916.0" layoutY="-1.0" onMouseClicked="#onEncyclopediaButtonClick" onMouseEntered="#onEncyclopediaButtonHover" onMouseExited="#onEncyclopediaButtonExit" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@assets/images/object/UI_ensiklopedia.png" />
          </image>
