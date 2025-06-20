@@ -35,7 +35,6 @@ public class SortTheTrash extends Game {
 
     private int trashLimit = 5;
     private int currentTrashCount = 0;
-    private Timeline countdownTimeline;
 
     final int WIDTH = 1280;
     final int HEIGHT = 720;
@@ -51,21 +50,6 @@ public class SortTheTrash extends Game {
         GameState.currentLives--;
         GameState.currentScore += score;
         DatabaseHandler.insertMinigameSessionData(2, false);
-    }
-
-    class Trash {
-        String type;
-        Image image;
-        double x, y;
-        double offsetX, offsetY;
-        boolean dragging = false;
-
-        public Trash(String type,Image image, double x, double y) {
-            this.type = type;
-            this.image = image;
-            this.x = x;
-            this.y = y;
-        }
     }
 
     Trash currentTrash;
@@ -131,15 +115,8 @@ public class SortTheTrash extends Game {
             double x = bins[i][0];
             double width = bins[i][1];
             int typeIdx = (int) bins[i][2];
-            String label = types[typeIdx];
 
             gc.drawImage(binImage[i],x - 100, canvasY - 200, width, 150);
-
-            gc.setFill(Color.BLACK);
-//            gc.fillRect(x - 100, canvasY - 200, width, 150);
-            gc.setFont(Font.font(18));
-            gc.setTextAlign(javafx.scene.text.TextAlignment.CENTER);
-            gc.fillText(label.toUpperCase(), x - 25, canvasY - 127);
         }
 
         // Gambar sampah
@@ -255,34 +232,5 @@ public class SortTheTrash extends Game {
 
         Image image = trashImages[imageIndex];
         currentTrash = new Trash(type, image, WIDTH / 2 - 30, HEIGHT / 2 - 100);
-    }
-
-    Color getColor(String type) {
-        return switch (type) {
-            case "anorganik" -> Color.LIGHTBLUE;
-            case "organik" -> Color.BURLYWOOD;
-            case "B3" -> Color.SILVER;
-            default -> Color.BLACK;
-        };
-    }
-
-    // Kelas helper AnimationTimer dengan FPS fix
-    class AnimationTimerExt extends AnimationTimer {
-        private long interval;
-        private long last = 0;
-        private Runnable onTick;
-
-        public AnimationTimerExt(int fps, Runnable onTick) {
-            this.interval = 1_000_000_000 / fps;
-            this.onTick = onTick;
-        }
-
-        @Override
-        public void handle(long now) {
-            if (now - last > interval) {
-                last = now;
-                onTick.run();
-            }
-        }
     }
 }

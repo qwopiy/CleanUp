@@ -40,16 +40,16 @@ public class SettingController {
     }
 
     public void sliderBGM() throws SQLException {
-        System.out.println(bgmControl.getValue());
+
         AudioController.bgmVolume = bgmControl.getValue() / 100.0;
         AudioController.musicPlayer.setVolume(bgmControl.getValue() / 100.0);
         DatabaseHandler.setVolume("bgm", bgmControl.getValue() / 100.0);
     }
 
     public void sliderSFX() throws SQLException {
-        System.out.println(sfxControl.getValue());
+
         AudioController.sfxVolume = sfxControl.getValue() / 100.0;
-        DatabaseHandler.setVolume("sfx", bgmControl.getValue() / 100.0);
+        DatabaseHandler.setVolume("sfx", sfxControl.getValue() / 100.0);
         AudioController.click();
     }
 }
