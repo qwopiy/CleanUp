@@ -170,7 +170,7 @@ public class TrashInTrench extends Game{
         String name = trashTypes[random.nextInt(trashTypes.length)];
 
         Image trashImage = new Image(getClass().getResourceAsStream(
-                "/com/wi3uplus2/cleanup/Asset/Trash/" + name + ".png"
+                "/com/wi3uplus2/cleanup/assets/images/object/" + name + ".png"
         ));
 
         ImageView trash = new ImageView(trashImage);
