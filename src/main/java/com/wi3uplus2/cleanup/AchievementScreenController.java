@@ -39,7 +39,7 @@ public class AchievementScreenController {
 
     public void initialize() {
         playerAchievement = DatabaseHandler.getAllPlayerAchievement();
-        Highscore.setText(String.valueOf(DatabaseHandler.GetHighScore()));
+        Highscore.setText(String.valueOf(DatabaseHandler.getHighScore()));
         int i = 0;
 
         while (i < playerAchievement.size()) {

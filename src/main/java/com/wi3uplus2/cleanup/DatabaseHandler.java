@@ -55,13 +55,22 @@ public class DatabaseHandler {
         return rs.getInt(column);
     }
 
-    public static int GetHighScore() {
+    public static int getHighScore() {
         String query = "SELECT high_score FROM player;";
         try {
             return readDataInt(query, 1);
         } catch (SQLException e) {
             System.err.println("Error saat mengambil high score: " + e.getMessage());
             return 0;
+        }
+    }
+
+    public static void setHighScore(int score) {
+        String query = "UPDATE player SET high_score = " + score + ";";
+        try {
+            InsertData(query);
+        } catch (SQLException e) {
+            System.err.println("Error saat mengupdate high score: " + e.getMessage());
         }
     }
 

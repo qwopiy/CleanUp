@@ -11,5 +11,8 @@ public class GameState {
 
     public static void endGame() throws SQLException {
         DatabaseHandler.insertSessionData(currentScore);
+        if (currentScore > DatabaseHandler.getHighScore()) {
+            DatabaseHandler.setHighScore(currentScore);
+        }
     }
 }
