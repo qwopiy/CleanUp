@@ -35,7 +35,6 @@ public class SortTheTrash extends Game {
 
     private int trashLimit = 5;
     private int currentTrashCount = 0;
-    private Timeline countdownTimeline;
 
     final int WIDTH = 1280;
     final int HEIGHT = 720;

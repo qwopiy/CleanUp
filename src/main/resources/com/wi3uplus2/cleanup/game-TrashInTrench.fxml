@@ -16,7 +16,7 @@
     <!-- Background Image -->
     <ImageView fx:id="background" fitHeight="737.0" fitWidth="1291.0" pickOnBounds="true" preserveRatio="false">
         <image>
-            <Image url="@Asset/Background/Background_Trench.png" />
+            <Image url="@assets/images/bg/Background_Trench.png" />
         </image>
     </ImageView>
 
@@ -54,7 +54,7 @@
                 <graphic>
                     <ImageView fitHeight="180.0" fitWidth="180.0">
                         <image>
-                            <Image url="@Asset/GameObject/organik_trashCan.png" />
+                            <Image url="@assets/images/object/organik_trashCan.png" />
                         </image>
                     </ImageView>
                 </graphic>
@@ -63,7 +63,7 @@
                 <graphic>
                     <ImageView fitHeight="180.0" fitWidth="180.0">
                         <image>
-                            <Image url="@Asset/GameObject/anorganik_trashCan.png" />
+                            <Image url="@assets/images/object/anorganik_trashCan.png" />
                         </image>
                     </ImageView>
                 </graphic>
@@ -72,7 +72,7 @@
                 <graphic>
                     <ImageView fitHeight="180.0" fitWidth="180.0">
                         <image>
-                            <Image url="@Asset/GameObject/B3_trashCan.png" />
+                            <Image url="@assets/images/object/B3_trashCan.png" />
                         </image>
                     </ImageView>
                 </graphic>
