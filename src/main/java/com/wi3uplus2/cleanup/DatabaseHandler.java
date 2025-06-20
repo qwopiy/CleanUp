@@ -3,6 +3,7 @@ package com.wi3uplus2.cleanup;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,8 +143,8 @@ public class DatabaseHandler {
             query = "SELECT current_condition FROM achievement WHERE achievement_id = " + id + ";";
             int currentConditionNum = readDataInt(query, 1);
             if (currentConditionNum >= condition) {
-                query = "INSERT INTO player_Achievement (player_id, achievement_id) " +
-                        "VALUES (1, " + id + ");";
+                query = "INSERT INTO player_Achievement (player_id, achievement_id, unlocked_at) " +
+                        "VALUES (1, " + id + ", " + LocalDate.now() + ");";
                 InsertData(query);
             }else{
                 insertToAchievement(id, current_num);

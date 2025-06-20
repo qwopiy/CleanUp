@@ -1,0 +1,71 @@
+CREATE TABLE "achievement" (
+	"achievement_id"	INTEGER,
+	"name"	TEXT,
+	"description"	TEXT,
+	"current_condition"	INTEGER,
+	PRIMARY KEY("achievement_id" AUTOINCREMENT)
+);
+
+INSERT INTO "achievement" ("name", "description", "current_condition")
+VALUES ("Stupid Guy", "Chase that stupid guy for the first time.", 0),
+         ("Trash Sorted", "Sort the trashes for the first time.", 0),
+         ("Reforestation", "Planted trees for the first time.", 0),
+         ("Natural Pesticide", "Protect your plant from some freaky bug for the first time.", 0),
+         ("Clean Canal", "Clean the canal for the first time.", 0),
+         ("Professional Runner", "Chase the stupid guy 100 times.", 0),
+         ("Professional Garbage Sorter", "Sort the trash 100 times.", 0),
+         ("Silvicultural Work", "Plant a total of 1000 trees.", 0),
+         ("Entomologist", "Smushed more than 500 freaky bugs.", 0),
+         ("Gotong-Royong", "Cleaned the canal 100 times.", 0);
+
+
+CREATE TABLE "game_session" (
+	"session_id"	INTEGER,
+	"player_id"	INTEGER,
+	"score"	INTEGER,
+	PRIMARY KEY("session_id" AUTOINCREMENT),
+	CONSTRAINT "FOREIGN KEY_GameSessions.player_id" FOREIGN KEY("player_id") REFERENCES "player"("player_id") ON DELETE CASCADE
+);
+
+CREATE TABLE "minigame" (
+	"minigame_id"	INTEGER,
+	"name"	TEXT,
+	"description"	TEXT,
+	PRIMARY KEY("minigame_id" AUTOINCREMENT)
+);
+
+INSERT INTO "minigame" ("name", "description")
+VALUES ("Chase the Stupid Guy", "Chase the stupid guy and catch him before he escapes."),
+         ("Sort the Trash", "Sort the trash into the correct bins as quickly as possible."),
+         ("Plant Trees", "Plant trees to restore the environment."),
+         ("Protect Your Plant", "Use natural pesticides (your hands) to protect your plants from bugs."),
+         ("Clean the Canal", "Remove trash and debris from the canal to keep it clean.");
+
+CREATE TABLE "minigame_session" (
+	"MiniGameSession_id"	INTEGER,
+	"session_id"	INTEGER,
+	"minigame_id"	INTEGER,
+	"is_successful"	BOOLEAN,
+	PRIMARY KEY("MiniGameSession_id" AUTOINCREMENT),
+	CONSTRAINT "FOREIGN KEY_MiniGameSession.minigame_id" FOREIGN KEY("minigame_id") REFERENCES "minigame"("name") ON DELETE CASCADE,
+	CONSTRAINT "FOREIGN KEY_MiniGameSession.session_id" FOREIGN KEY("session_id") REFERENCES "game_session"("session_id") ON DELETE CASCADE
+);
+
+CREATE TABLE "player" (
+	"player_id"	INTEGER,
+	"high_score"	INTEGER,
+	"total_games_played"	INTEGER,
+	"volume_bgm"	REAL NOT NULL DEFAULT 1.0,
+	"volume_sfx"	REAL NOT NULL DEFAULT 1.0,
+	PRIMARY KEY("player_id" AUTOINCREMENT)
+);
+
+CREATE TABLE "player_achievement" (
+	"player_achievement_id"	INTEGER,
+	"player_id"	INTEGER,
+	"achievement_id"	INTEGER,
+	"unlocked_at"	TEXT,
+	PRIMARY KEY("player_achievement_id" AUTOINCREMENT),
+	CONSTRAINT "FOREIGN KEY_PlayerAchievements.achievement_id" FOREIGN KEY("achievement_id") REFERENCES "achievement"("achievement_id") ON DELETE CASCADE,
+	CONSTRAINT "FOREIGN KEY_PlayerAchievements.player_id" FOREIGN KEY("player_id") REFERENCES "player"("player_id") ON DELETE CASCADE
+);
