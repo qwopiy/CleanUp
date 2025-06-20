@@ -19,7 +19,9 @@ public class DefendTheGarden extends Game {
     void win() {
         GameState.currentScore += 50;
         try {
-            DatabaseHandler.insertMinigameSessionData(1, true);
+            DatabaseHandler.insertMinigameSessionData(4, true);
+            DatabaseHandler.checkPlayerAchievements(4, 0, 0);
+            DatabaseHandler.checkPlayerAchievements(9, enemiesClicked, 500);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -29,7 +31,9 @@ public class DefendTheGarden extends Game {
     void lose() {
         GameState.currentLives--;
         try {
-            DatabaseHandler.insertMinigameSessionData(1, false);
+            DatabaseHandler.insertMinigameSessionData(4, false);
+            DatabaseHandler.checkPlayerAchievements(4, 0, 0);
+            DatabaseHandler.checkPlayerAchievements(9, enemiesClicked, 500);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

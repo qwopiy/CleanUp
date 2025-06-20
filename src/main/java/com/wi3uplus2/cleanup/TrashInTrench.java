@@ -250,6 +250,8 @@ public class TrashInTrench extends Game {
     void win() {
         try {
             DatabaseHandler.insertMinigameSessionData(5, true);
+            DatabaseHandler.checkPlayerAchievements(5, 0, 0);
+            DatabaseHandler.checkPlayerAchievements(10, 1, 100);
             GameState.currentScore += score;
         } catch (SQLException e) {
             System.err.println("Error inserting minigame session data: " + e.getMessage());
@@ -262,6 +264,8 @@ public class TrashInTrench extends Game {
         gameEnded = true;
         try {
             DatabaseHandler.insertMinigameSessionData(5, false);
+            DatabaseHandler.checkPlayerAchievements(5, 0, 0);
+            DatabaseHandler.checkPlayerAchievements(10, 1, 100);
             GameState.currentLives--;
             GameState.currentScore += score;
         } catch (SQLException e) {
