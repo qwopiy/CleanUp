@@ -28,6 +28,8 @@ public class ChaseThatStupidGuy extends Game{
         AudioController.win();
         GameState.currentScore += 30;
         DatabaseHandler.insertMinigameSessionData(1, true);
+        DatabaseHandler.checkPlayerAchievements(1, 0, 0);
+        DatabaseHandler.checkPlayerAchievements(6, 1,100);
     }
 
     @Override
@@ -35,6 +37,8 @@ public class ChaseThatStupidGuy extends Game{
         AudioController.lose();
         GameState.currentLives--;
         DatabaseHandler.insertMinigameSessionData(1, false);
+        DatabaseHandler.checkPlayerAchievements(1, 0, 0);
+        DatabaseHandler.checkPlayerAchievements(6, 1,100);
     }
 
     @FXML

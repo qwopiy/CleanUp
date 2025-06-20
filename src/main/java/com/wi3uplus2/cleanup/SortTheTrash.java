@@ -43,6 +43,8 @@ public class SortTheTrash extends Game {
     void win() throws SQLException {
         GameState.currentScore += score;
         DatabaseHandler.insertMinigameSessionData(2, true);
+        DatabaseHandler.checkPlayerAchievements(2, 0, 0);
+        DatabaseHandler.checkPlayerAchievements(7, 1, 100);
     }
 
     @Override
@@ -50,6 +52,8 @@ public class SortTheTrash extends Game {
         GameState.currentLives--;
         GameState.currentScore += score;
         DatabaseHandler.insertMinigameSessionData(2, false);
+        DatabaseHandler.checkPlayerAchievements(2, 0, 0);
+        DatabaseHandler.checkPlayerAchievements(7, 1, 100);
     }
 
     Trash currentTrash;
