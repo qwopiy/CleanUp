@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="720" prefWidth="1280" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.TrashInTrench">
+<AnchorPane fx:id="rootPane" prefHeight="720" prefWidth="1280" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wi3uplus2.cleanup.TrashInTrench">
 
     <!-- Background Image -->
     <ImageView fx:id="background" fitHeight="737.0" fitWidth="1291.0" pickOnBounds="true" preserveRatio="false">
@@ -93,12 +93,12 @@
     </AnchorPane>
    <Pane fx:id="preGame" layoutX="-10.0" layoutY="-2.0" onMouseClicked="#onFirstClick" opacity="0.44" prefHeight="737.0" prefWidth="1305.0" style="-fx-background-color: #000000;">
       <children>
-         <Label layoutX="503.0" layoutY="261.0" prefHeight="67.0" prefWidth="289.0" text="Click &amp; Drag" textFill="WHITE">
+         <Label layoutX="574.0" layoutY="257.0" prefHeight="67.0" prefWidth="150.0" text="Choice" textAlignment="CENTER" textFill="WHITE">
             <font>
                <Font name="Comic Sans MS" size="48.0" />
             </font>
          </Label>
-         <Label layoutX="328.0" layoutY="324.0" prefHeight="172.0" prefWidth="641.0" text="Kutip sampah dari sungai, dan buang ke tempatnya!!" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <Label layoutX="328.0" layoutY="324.0" prefHeight="172.0" prefWidth="641.0" text="Kutip sampah paling depan di parit ini dengan menekan tempat sampahnya yang sesuai." textAlignment="CENTER" textFill="WHITE" wrapText="true">
             <font>
                <Font name="Comic Sans MS" size="36.0" />
             </font>

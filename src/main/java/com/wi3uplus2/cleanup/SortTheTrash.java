@@ -115,15 +115,8 @@ public class SortTheTrash extends Game {
             double x = bins[i][0];
             double width = bins[i][1];
             int typeIdx = (int) bins[i][2];
-            String label = types[typeIdx];
 
             gc.drawImage(binImage[i],x - 100, canvasY - 200, width, 150);
-
-            gc.setFill(Color.BLACK);
-//            gc.fillRect(x - 100, canvasY - 200, width, 150);
-            gc.setFont(Font.font(18));
-            gc.setTextAlign(javafx.scene.text.TextAlignment.CENTER);
-            gc.fillText(label.toUpperCase(), x - 25, canvasY - 127);
         }
 
         // Gambar sampah

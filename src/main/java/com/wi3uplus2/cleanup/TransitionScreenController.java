@@ -92,7 +92,7 @@ public class TransitionScreenController {
             try {
                 // Set the new root for the current scene
                 Scene scene = lives.getScene();
-                scene.setRoot(minigames[3]);
+                scene.setRoot(minigames[GameState.nextGame]);
             } catch (Exception e) {
                 System.out.println(e + " " + GameState.nextGame);
             }
