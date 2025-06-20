@@ -2,9 +2,13 @@ package com.wi3uplus2.cleanup;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,54 +47,33 @@ public class DefendTheGarden extends Game {
     @FXML
     private Label statusLabel;
 
+    @FXML
+    private Pane preGame;
+
     private int totalEnemies = 7;
     private int enemiesClicked = 0;
     private boolean gameEnded = false;
     private final List<Pest> pests = new ArrayList<>();
-    private String difficulty = "normal";
 
     public void initialize() {
-        // Tentukan difficulty berdasarkan skor dari GameState
-        if (GameState.currentScore > 100) {
-            difficulty = "hard";
-        } else if (GameState.currentScore > 50) {
-            difficulty = "medium";
-        } else {
-            difficulty = "easy";
-        }
-
-        System.out.println("Difficulty (auto from score): " + difficulty);
+        System.out.println("Difficulty (auto from score): " + GameState.difficulty);
 
         // Spesifik untuk game Jagatanaman: totalEnemies & spawn berdasarkan difficulty
-        switch (difficulty) {
+        switch (GameState.difficulty) {
             case "easy" -> totalEnemies = 5;
             case "medium" -> totalEnemies = 7;
             case "hard" -> totalEnemies = 10;
         }
 
-        // Tunggu scene siap sebelum spawn enemy
-        Platform.runLater(this::spawnEnemies);
-
-//        setDifficulty("normal");
-////        Platform.runLater(this::spawnEnemies);
-//
-//        Platform.runLater(() -> {
-////            System.out.println("Scene width = " + gamePane.getScene().getWidth());
-//            spawnEnemies();
-//        });
     }
 
-//    public void setDifficulty(String level) {
-//        this.difficulty = level;
-//        switch (level) {
-//            case "easy" -> totalEnemies = 5;
-//            case "normal" -> totalEnemies = 7;
-//            case "hard" -> totalEnemies = 10;
-//        }
-//    }
+    public void onFirstClick() {
+        preGame.setVisible(false);
+        spawnEnemies();
+    }
 
     private double getSpeed() {
-        return switch (difficulty) {
+        return switch (GameState.difficulty) {
             case "easy" -> 4.0;
             case "normal" -> 5.0;
             case "hard" -> 6.0;
@@ -154,6 +137,17 @@ public class DefendTheGarden extends Game {
 
         for (Pest pest : pests) {
             pest.stop();
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
+            Parent root = loader.load();
+            TransitionScreenController controller = loader.getController();
+            controller.show();
+            Scene scene = gamePane.getScene();
+            scene.setRoot(root);
+        } catch (Exception e) {
+            System.out.println("Error loading transition screen: " + e.getMessage());
         }
     }
 }

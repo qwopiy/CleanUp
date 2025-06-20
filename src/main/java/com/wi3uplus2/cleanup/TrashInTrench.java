@@ -148,7 +148,7 @@ public class TrashInTrench extends Game{
 
             if (score <= 0) {
                 AudioController.lose();
-//                lose();
+                lose();
             }
             else {
                 AudioController.win();
@@ -198,22 +198,26 @@ public class TrashInTrench extends Game{
         move.play();
         trashTimelines.add(move);
 
-        trash.setOnDragDetected(e -> {
-            if (!"handled".equals(trash.getUserData())) {
-                Dragboard db = trash.startDragAndDrop(TransferMode.MOVE);
-                ClipboardContent content = new ClipboardContent();
-                content.putString(name);
-                db.setContent(content);
-                e.consume();
-            }
-        });
+//        trash.setOnDragDetected(e -> {
+//            if (!"handled".equals(trash.getUserData())) {
+//                Dragboard db = trash.startDragAndDrop(TransferMode.MOVE);
+//                ClipboardContent content = new ClipboardContent();
+//                content.putString(name);
+//                db.setContent(content);
+//                e.consume();
+//            }
+//        });
+//
+//        trash.setOnMouseDragged(event -> {
+//            if (!"handled".equals(trash.getUserData())) {
+//                trash.setLayoutX(event.getSceneX() - 40);
+//                trash.setLayoutY(event.getSceneY() - 40);
+//                event.consume();
+//            }
+//        });
 
-        trash.setOnMouseDragged(event -> {
-            if (!"handled".equals(trash.getUserData())) {
-                trash.setLayoutX(event.getSceneX() - 40);
-                trash.setLayoutY(event.getSceneY() - 40);
-                event.consume();
-            }
+        trash.setOnMouseClicked(e -> {
+
         });
     }
 
@@ -275,17 +279,17 @@ public class TrashInTrench extends Game{
 
     }
 
-//    @Override
+    @Override
     void lose() {
-//        if (gameEnded) return; // Prevent multiple triggers
-//        gameEnded = true;
-//        try {
-//            System.out.println("currentLives: " + GameState.currentLives);
-//            DatabaseHandler.insertMinigameSessionData(5, false);
-//            GameState.currentLives--; // Kurangi nyawa pemain
-//            GameState.currentScore += score; // Tambahkan skor ke total skor
-//        } catch (SQLException e) {
-//            System.err.println("Error inserting minigame session data: " + e.getMessage());
-//        }
+        if (gameEnded) return; // Prevent multiple triggers
+        gameEnded = true;
+        try {
+            System.out.println("currentLives: " + GameState.currentLives);
+            DatabaseHandler.insertMinigameSessionData(5, false);
+            GameState.currentLives--; // Kurangi nyawa pemain
+            GameState.currentScore += score; // Tambahkan skor ke total skor
+        } catch (SQLException e) {
+            System.err.println("Error inserting minigame session data: " + e.getMessage());
+        }
     }
 }
