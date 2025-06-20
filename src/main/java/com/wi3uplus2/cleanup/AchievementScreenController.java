@@ -48,7 +48,7 @@ public class AchievementScreenController {
             String dateAchieved = playerAchievement.get(i).getDateAchieved();
 
             HBox baris = new HBox(50);
-            Image image = new Image(getClass().getResourceAsStream("/com/wi3uplus2/cleanup/assets/images/object/B3_poison.png"));
+            Image image = new Image(getClass().getResourceAsStream("/com/wi3uplus2/cleanup/assets/images/Achievement/achievement" + (i+1) + ".png"));
 
             ImageView img = new ImageView(image);
             img.setFitWidth(100);

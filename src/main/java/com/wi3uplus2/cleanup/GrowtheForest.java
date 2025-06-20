@@ -38,7 +38,8 @@ public class GrowtheForest extends Game {
     private int treesGrown = 0;
 
     private int id_minigame = 2;
-    private int id_achievement_ForestSavior = 2;
+    private int id_achievement_silviculturalWork = 8;
+    private int id_achievement_reforestation = 3;
 
 
     @FXML
@@ -137,14 +138,16 @@ public class GrowtheForest extends Game {
     @Override
     void win() throws SQLException {
         GameState.currentScore += 50;
-        DatabaseHandler.checkPlayerAchievements(id_achievement_ForestSavior, treesGrown, 1000);
+        DatabaseHandler.checkPlayerAchievements(id_achievement_silviculturalWork, treesGrown, 1000);
+        DatabaseHandler.checkPlayerAchievements(id_achievement_reforestation, 0, 0);
         DatabaseHandler.insertMinigameSessionData(id_minigame, true);
     }
 
     @Override
     void lose() throws SQLException {
         GameState.currentLives--;
-        DatabaseHandler.checkPlayerAchievements(id_achievement_ForestSavior, treesGrown, 1000);
+        DatabaseHandler.checkPlayerAchievements(id_achievement_silviculturalWork, treesGrown, 1000);
+        DatabaseHandler.checkPlayerAchievements(id_achievement_reforestation, 0, 0);
         DatabaseHandler.insertMinigameSessionData(id_minigame, false);
     }
 }
