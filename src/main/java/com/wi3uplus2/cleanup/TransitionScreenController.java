@@ -66,9 +66,6 @@ public class TransitionScreenController {
 
     @FXML
     public void show() {
-        // Randomly pick the next game to play
-//        pickNextGame();
-
         // Initialize the transition screen with default values
         lives.setText("Nyawa : " + GameState.currentLives);
         score.setText("Skor  : " + GameState.currentScore);
@@ -77,12 +74,20 @@ public class TransitionScreenController {
     @FXML
     protected void onButtonClick(javafx.scene.input.MouseEvent event) {
         AudioController.click();
-//        System.out.println(GameState.nextGame);
-        if (GameState.nextGame < minigames.length) {
-            GameState.nextGame++;
+
+        // difficulty check
+        if (GameState.currentScore < 100) {
+            GameState.difficulty = "easy";
+        } else if (GameState.currentScore < 300) {
+            GameState.difficulty = "medium";
         } else {
-            GameState.nextGame = 0;
+            GameState.difficulty = "hard";
         }
+
+        // memilih minigame selanjutnya
+        pickNextGame();
+
+        // Set the next game to play
         if (GameState.currentLives > 0){
             try {
                 // Set the new root for the current scene
@@ -107,6 +112,7 @@ public class TransitionScreenController {
     }
 
     public void onButtonHover() {
+        show();
         nextGameButton.setX(nextGameButton.getX() - 10);
         nextGameButton.setY(nextGameButton.getY() - 10);
 
@@ -126,10 +132,11 @@ public class TransitionScreenController {
         nextGameLabel.setLayoutX(nextGameLabel.getLayoutX() - 10);
     }
 
-
-    protected void pickNextGame() {
-        if ((int)(Math.random() * 2 ) != GameState.nextGame) {
-            GameState.nextGame = (int) (Math.random() * 2);
+    public void pickNextGame() {
+        int randomGame = (int) (Math.random() * minigames.length);
+        if ((randomGame) != GameState.nextGame) {
+            GameState.nextGame = randomGame;
+            System.out.println("Next game is: " + GameState.nextGame);
         } else {
             pickNextGame();
         }

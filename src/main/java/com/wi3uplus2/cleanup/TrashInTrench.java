@@ -110,6 +110,21 @@ public class TrashInTrench extends Game{
         });
     }
 
+    @Override
+    public void onCountdownEnd(Label label) {
+        // Switch to transition screen or show game over
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
+            Parent root = loader.load();
+            TransitionScreenController controller = loader.getController();
+            controller.show();
+            Scene scene = label.getScene();
+            scene.setRoot(root);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     private void startGame() {
         gameStarted = true;
         score = 0;
@@ -127,7 +142,18 @@ public class TrashInTrench extends Game{
 
         // win condition
         progressTimeline.setOnFinished(ev -> {
-            win();
+            if (spawnTimeline != null) spawnTimeline.stop();
+            if (progressTimeline != null) progressTimeline.stop();
+            for (Timeline t : trashTimelines) t.stop();
+
+            if (score <= 0) {
+                AudioController.lose();
+//                lose();
+            }
+            else {
+                AudioController.win();
+                win();
+            }
             endLevel();
         });
     }
@@ -165,7 +191,6 @@ public class TrashInTrench extends Game{
                     move.stop();
                     endLevelWithMiss();
                     gameEnded = true;
-                    lose();
                 }
             }
         }));
@@ -216,6 +241,8 @@ public class TrashInTrench extends Game{
     }
 
     private void endLevelWithMiss() {
+        if (gameEnded) return; // Prevent multiple triggers
+        gameEnded = true;
         if (gameStarted) {
             disableButtons(true);
             gameStarted = false;
@@ -248,18 +275,17 @@ public class TrashInTrench extends Game{
 
     }
 
-    @Override
+//    @Override
     void lose() {
-        if (!gameStarted && gameEnded) {
-            return;
-        }
-        System.out.println("minus 1");
-        try {
-            DatabaseHandler.insertMinigameSessionData(5, false);
-            GameState.currentLives--; // Kurangi nyawa pemain
-            GameState.currentScore += score; // Tambahkan skor ke total skor
-        } catch (SQLException e) {
-            System.err.println("Error inserting minigame session data: " + e.getMessage());
-        }
+//        if (gameEnded) return; // Prevent multiple triggers
+//        gameEnded = true;
+//        try {
+//            System.out.println("currentLives: " + GameState.currentLives);
+//            DatabaseHandler.insertMinigameSessionData(5, false);
+//            GameState.currentLives--; // Kurangi nyawa pemain
+//            GameState.currentScore += score; // Tambahkan skor ke total skor
+//        } catch (SQLException e) {
+//            System.err.println("Error inserting minigame session data: " + e.getMessage());
+//        }
     }
 }
