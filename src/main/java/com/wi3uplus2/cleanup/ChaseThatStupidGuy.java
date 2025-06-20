@@ -21,16 +21,12 @@ public class ChaseThatStupidGuy extends Game{
     @FXML
     private Pane preGame;
 
-    private String difficulty = "easy";
     private int playerSpeed = 10;
-
-//    private int animCycle = 0;
-//    private Image[] playerRun;
 
     @Override
     void win() throws SQLException {
         AudioController.win();
-        GameState.currentScore += 10;
+        GameState.currentScore += 30;
         DatabaseHandler.insertMinigameSessionData(1, true);
     }
 
@@ -43,15 +39,7 @@ public class ChaseThatStupidGuy extends Game{
 
     @FXML
     public void initialize() {
-//        playerRun[0] = new Image(String.valueOf(getClass().getResource("assets/images/character/Character_Run1")));
-//        playerRun[1] = new Image(String.valueOf(getClass().getResource("assets/images/character/Character_Run2")));
-
-        if (GameState.currentScore > 100) {
-            difficulty = "hard";
-        } else if (GameState.currentScore > 50) {
-            difficulty = "medium";
-        }
-        switch (difficulty) {
+        switch (GameState.difficulty) {
             case "easy":
                 playerSpeed = 30;
                 pembuangSampah.setX(pembuangSampah.getX() - 200);
@@ -70,8 +58,6 @@ public class ChaseThatStupidGuy extends Game{
             default:
                 playerSpeed = 10; // Default speed
         }
-
-        System.out.println(difficulty);
     }
 
     public void onFirstClick() {
@@ -86,17 +72,6 @@ public class ChaseThatStupidGuy extends Game{
         if (player.getBoundsInParent().intersects(pembuangSampah.getBoundsInParent())) {
             onPlayerTouchPembuangSampah();
         }
-
-//        switch (animCycle) {
-//            case 0:
-//                player.setImage(playerRun[1]);
-//                animCycle = 1;
-//                break;
-//            case 1:
-//                player.setImage(playerRun[0]);
-//                animCycle = 0;
-//                break;
-//        }
     }
 
     private void onPlayerTouchPembuangSampah() {
@@ -121,4 +96,19 @@ public class ChaseThatStupidGuy extends Game{
         }
     }
 
+//    @Override
+//    public void onCountdownEnd(Label label) {
+//        // Switch to transition screen or show game over
+//        try {
+//            lose();
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("transition-screen.fxml"));
+//            Parent root = loader.load();
+//            TransitionScreenController controller = loader.getController();
+//            controller.show();
+//            Scene scene = label.getScene();
+//            scene.setRoot(root);
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//    }
 }
